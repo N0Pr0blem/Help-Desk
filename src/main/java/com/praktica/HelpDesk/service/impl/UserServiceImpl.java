@@ -1,6 +1,5 @@
 package com.praktica.HelpDesk.service.impl;
 
-import com.praktica.HelpDesk.dto.user.UserRegisterDto;
 import com.praktica.HelpDesk.dto.user.UserUpdateDto;
 import com.praktica.HelpDesk.entity.UserEntity;
 import com.praktica.HelpDesk.exception.UserException;
@@ -48,24 +47,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity updateUser(Long id, UserUpdateDto userUpdateDto) {
         UserEntity user = getById(id);
-        if(userUpdateDto.getFirstName()!=null) user.setFirstName(user.getFirstName());
-        if(userUpdateDto.getSecondName()!=null) user.setSecondName(user.getSecondName());
-        if(userUpdateDto.getLastName()!=null) user.setLastName(user.getLastName());
-        if(userUpdateDto.getPassword()!=null) user.setPassword(user.getPassword());
+        if(userUpdateDto.getFirstName()!=null) user.setFirstName(userUpdateDto.getFirstName());
+        if(userUpdateDto.getSecondName()!=null) user.setSecondName(userUpdateDto.getSecondName());
+        if(userUpdateDto.getLastName()!=null) user.setLastName(userUpdateDto.getLastName());
+        if(userUpdateDto.getPassword()!=null) user.setPassword(userUpdateDto.getPassword());
 
         return userRepository.save(user);
     }
 
     @Override
-    public UserEntity registerUser(UserRegisterDto userRegisterDto) {
-        return userRepository.save(UserEntity.builder()
-                .email(userRegisterDto.getEmail())
-                .password(userRegisterDto.getPassword())
-                .firstName(userRegisterDto.getFirstName())
-                .secondName(userRegisterDto.getSecondName())
-                .lastName(userRegisterDto.getLastName())
-                .isActive(false)
-                .build());
+    public UserEntity registerUser(UserEntity userEntity) {
+        return userRepository.save(userEntity);
     }
 
     @Override
@@ -73,7 +65,7 @@ public class UserServiceImpl implements UserService {
         userRepository.findByActivationCode(code)
                 .ifPresentOrElse(userEntity -> {
                     userEntity.setActive(true);
-                    userEntity.setActivationCode("");
+                    userEntity.setActivationCode(null);
                     userRepository.save(userEntity);
                 }, () -> {
                     throw new UserException("Wrong activation code", "USER_ACTIVATION_CODE_EXCEPTION");
