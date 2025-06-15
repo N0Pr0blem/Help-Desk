@@ -1,7 +1,7 @@
 package com.praktica.HelpDesk.service.impl;
 
-import com.praktica.HelpDesk.dto.user.RegisterUserDto;
-import com.praktica.HelpDesk.dto.user.UpdateUserDto;
+import com.praktica.HelpDesk.dto.user.UserRegisterDto;
+import com.praktica.HelpDesk.dto.user.UserUpdateDto;
 import com.praktica.HelpDesk.entity.UserEntity;
 import com.praktica.HelpDesk.exception.UserException;
 import com.praktica.HelpDesk.repository.UserRepository;
@@ -46,24 +46,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity updateUser(Long id, UpdateUserDto updateUserDto) {
+    public UserEntity updateUser(Long id, UserUpdateDto userUpdateDto) {
         UserEntity user = getById(id);
-        if(updateUserDto.getFirstName()!=null) user.setFirstName(user.getFirstName());
-        if(updateUserDto.getSecondName()!=null) user.setSecondName(user.getSecondName());
-        if(updateUserDto.getLastName()!=null) user.setLastName(user.getLastName());
-        if(updateUserDto.getPassword()!=null) user.setPassword(user.getPassword());
+        if(userUpdateDto.getFirstName()!=null) user.setFirstName(user.getFirstName());
+        if(userUpdateDto.getSecondName()!=null) user.setSecondName(user.getSecondName());
+        if(userUpdateDto.getLastName()!=null) user.setLastName(user.getLastName());
+        if(userUpdateDto.getPassword()!=null) user.setPassword(user.getPassword());
 
         return userRepository.save(user);
     }
 
     @Override
-    public UserEntity registerUser(RegisterUserDto registerUserDto) {
+    public UserEntity registerUser(UserRegisterDto userRegisterDto) {
         return userRepository.save(UserEntity.builder()
-                .email(registerUserDto.getEmail())
-                .password(registerUserDto.getPassword())
-                .firstName(registerUserDto.getFirstName())
-                .secondName(registerUserDto.getSecondName())
-                .lastName(registerUserDto.getLastName())
+                .email(userRegisterDto.getEmail())
+                .password(userRegisterDto.getPassword())
+                .firstName(userRegisterDto.getFirstName())
+                .secondName(userRegisterDto.getSecondName())
+                .lastName(userRegisterDto.getLastName())
                 .isActive(false)
                 .build());
     }

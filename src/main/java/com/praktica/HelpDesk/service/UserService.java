@@ -1,7 +1,7 @@
 package com.praktica.HelpDesk.service;
 
-import com.praktica.HelpDesk.dto.user.UpdateUserDto;
-import com.praktica.HelpDesk.dto.user.RegisterUserDto;
+import com.praktica.HelpDesk.dto.user.UserUpdateDto;
+import com.praktica.HelpDesk.dto.user.UserRegisterDto;
 import com.praktica.HelpDesk.entity.UserEntity;
 
 import java.util.List;
@@ -17,9 +17,9 @@ public interface UserService {
 
     UserEntity getByEmail(String email);
 
-    UserEntity updateUser(Long id, UpdateUserDto updateUserDto);
+    UserEntity updateUser(Long id, UserUpdateDto userUpdateDto);
 
-    UserEntity registerUser(RegisterUserDto registerUserDto);
+    UserEntity registerUser(UserRegisterDto userRegisterDto);
 
     void activateUser(String code);
 }
