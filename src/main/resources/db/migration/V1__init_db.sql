@@ -5,6 +5,7 @@ CREATE TABLE users (
     first_name VARCHAR(64) NOT NULL,
     second_name VARCHAR(64) NOT NULL,
     last_name VARCHAR(64) NOT NULL,
+    activation_code VARCHAR(64),
     is_active BOOLEAN NOT NULL,
     role VARCHAR(16) NOT NULL
 );
