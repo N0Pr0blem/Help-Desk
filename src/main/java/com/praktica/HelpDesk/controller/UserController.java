@@ -1,6 +1,6 @@
 package com.praktica.HelpDesk.controller;
 
-import com.praktica.HelpDesk.dto.user.UserOutputDto;
+import com.praktica.HelpDesk.dto.user.UserResponseDto;
 import com.praktica.HelpDesk.dto.user.UserUpdateDto;
 import com.praktica.HelpDesk.entity.UserEntity;
 import com.praktica.HelpDesk.mapper.UserMapper;
@@ -21,7 +21,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping()
-    public ResponseEntity<List<UserOutputDto>> getAll(
+    public ResponseEntity<List<UserResponseDto>> getAll(
             @RequestParam(name = "page", required = false) Integer page,
             @RequestParam(name = "size", required = false) Integer size,
             @RequestParam(name = "email", required = false) String email
@@ -34,15 +34,20 @@ public class UserController {
         return ResponseEntity.ok(userMapper.toDtos(res));
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserResponseDto> getById(@PathVariable("userId") Long id) {
+        return ResponseEntity.ok(userMapper.toDto(userService.getById(id)));
+    }
+
     @DeleteMapping("/{userId}")
-    public ResponseEntity<String> deleteById(@PathVariable("id") Long id) {
+    public ResponseEntity<String> deleteById(@PathVariable("userId") Long id) {
         userService.deleteById(id);
         return ResponseEntity.ok("User with id: " + id + " successfully deleted");
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<UserOutputDto> updateUser(
-            @PathVariable("id") Long id,
+    @PatchMapping("/{userId}")
+    public ResponseEntity<UserResponseDto> updateUser(
+            @PathVariable("userId") Long id,
             @RequestBody UserUpdateDto usesUpdateDto
     ) {
         return ResponseEntity.ok(userMapper.toDto(userService.updateUser(id,usesUpdateDto)));
