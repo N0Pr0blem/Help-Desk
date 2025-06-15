@@ -104,11 +104,15 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     public String getEmailFromToken(String token) {
-        return Jwts.parser()
+        String email =  Jwts.parser()
                 .setSigningKey(Base64.getEncoder().encodeToString(secret.getBytes()))
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
+
+        System.out.println(email);
+
+        return email;
     }
 }
