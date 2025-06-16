@@ -24,8 +24,7 @@ public class SecurityConfig {
             "/api/v1/swagger-ui.html",
             "/webjars/swagger-ui/**",
             "/v3/api-docs/**",
-            "/api/tasks/**",          
-            "/api/tasks/*"
+            "/api/v1/tasks/**"
     };
 
     @Bean
@@ -34,7 +33,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(publicRoutes).permitAll()
-                        .requestMatchers("/api/v1/users/**").permitAll()
+                        .requestMatchers("/api/v1/users/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 );
 

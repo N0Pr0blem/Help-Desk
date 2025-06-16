@@ -9,3 +9,15 @@ CREATE TABLE users (
     is_active BOOLEAN NOT NULL,
     role VARCHAR(16) NOT NULL
 );
+
+CREATE TABLE tasks (
+    id SERIAL PRIMARY KEY,
+    description TEXT NOT NULL,
+    from_user_id BIGINT UNSIGNED NOT NULL,
+    to_user_id BIGINT UNSIGNED,
+    created_at TIMESTAMP NOT NULL,
+    finished_at TIMESTAMP,
+    status VARCHAR(50) NOT NULL,
+    FOREIGN KEY(from_user_id) REFERENCES users(id),
+    FOREIGN KEY(to_user_id) REFERENCES users(id)
+);
