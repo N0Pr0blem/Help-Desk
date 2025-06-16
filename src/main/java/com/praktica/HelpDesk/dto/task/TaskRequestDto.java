@@ -7,5 +7,6 @@ import lombok.Data;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TaskRequestDto {
+    private Long fromUserId;
     private String description;
 }

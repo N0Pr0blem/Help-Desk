@@ -64,13 +64,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task create(TaskRequestDto taskRequestDto, Principal principal) {
-        CustomPrincipal customPrincipal = (CustomPrincipal) principal;
-
+    public Task create(TaskRequestDto taskRequestDto) {
         return taskRepository.save(Task.builder()
                 .createdAt(LocalDateTime.now())
                 .description(taskRequestDto.getDescription())
-                .fromUser(userService.getById(customPrincipal.getId()))
+                .fromUser(userService.getById(taskRequestDto.getFromUserId()))
                 .status(TaskStatus.WAIT)
                 .build());
     }
