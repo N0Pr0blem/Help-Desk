@@ -48,13 +48,14 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<TaskResponseDto> createTask(@RequestBody TaskRequestDto taskRequestDto, Principal principal) {
-        return ResponseEntity.ok(taskMapper.toDto(taskService.create(taskRequestDto, principal)));
+    public ResponseEntity<TaskResponseDto> createTask(@RequestBody TaskRequestDto taskRequestDto) {
+        return ResponseEntity.ok(taskMapper.toDto(taskService.create(taskRequestDto)));
     }
 
     @DeleteMapping("/{taskId}")
     public ResponseEntity<String> delete(@PathVariable("taskId") Long taskId){
         taskService.deleteById(taskId);
+
         return ResponseEntity.ok("Task successfully delete");
     }
 
@@ -62,6 +63,7 @@ public class TaskController {
         if (sort.length >= 2) {
             String property = sort[0];
             String direction = sort[1];
+
             return Sort.by(Sort.Direction.fromString(direction), property);
         }
         return Sort.unsorted();
