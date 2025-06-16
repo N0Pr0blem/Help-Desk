@@ -25,7 +25,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserService userService;
 
-
     //В данном методе хардкод. Метод getEmailFromToken возвращает почему-то id пользователя
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
