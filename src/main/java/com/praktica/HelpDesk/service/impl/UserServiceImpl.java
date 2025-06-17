@@ -2,6 +2,7 @@ package com.praktica.HelpDesk.service.impl;
 
 import com.praktica.HelpDesk.dto.user.UserUpdateDto;
 import com.praktica.HelpDesk.entity.UserEntity;
+import com.praktica.HelpDesk.exception.AuthException;
 import com.praktica.HelpDesk.exception.UserException;
 import com.praktica.HelpDesk.repository.UserRepository;
 import com.praktica.HelpDesk.service.UserService;
@@ -65,7 +66,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity registerUser(UserEntity userEntity) {
-        return userRepository.save(userEntity);
+
+        if(userRepository.findByEmail(userEntity.getEmail()).isEmpty()) {
+            return userRepository.save(userEntity);
+        }
+        else throw new AuthException("User already exist","USER_EXIST_EXCEPTION");
     }
 
     @Override

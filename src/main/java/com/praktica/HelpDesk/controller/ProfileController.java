@@ -4,6 +4,7 @@ import com.praktica.HelpDesk.dto.user.UserResponseDto;
 import com.praktica.HelpDesk.dto.user.UserUpdateDto;
 import com.praktica.HelpDesk.mapper.UserMapper;
 import com.praktica.HelpDesk.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,7 @@ public class ProfileController {
     private final UserMapper userMapper;
 
     @PatchMapping()
-    public ResponseEntity<UserResponseDto> updateUser(@RequestBody UserUpdateDto usesUpdateDto, Principal principal) {
+    public ResponseEntity<UserResponseDto> updateUser(@Valid @RequestBody UserUpdateDto usesUpdateDto, Principal principal) {
         return ResponseEntity.ok(userMapper.toDto(userService.updateUser(usesUpdateDto,principal)));
     }
 
