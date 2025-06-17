@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -56,6 +57,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserEntity updateUser(UserUpdateDto userUpdateDto, Principal principal) {
+        UserEntity user = getByEmail(principal.getName());
+
+        return updateUser(user.getId(),userUpdateDto);
+    }
+
+    @Override
     public UserEntity registerUser(UserEntity userEntity) {
         return userRepository.save(userEntity);
     }
@@ -70,5 +78,11 @@ public class UserServiceImpl implements UserService {
                 }, () -> {
                     throw new UserException("Wrong activation code", "USER_ACTIVATION_CODE_EXCEPTION");
                 });
+    }
+
+    @Override
+    public UserEntity getProfile(Principal principal) {
+        UserEntity user = getByEmail(principal.getName());
+        return getById(user.getId());
     }
 }
