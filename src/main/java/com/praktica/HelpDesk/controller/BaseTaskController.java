@@ -4,6 +4,7 @@ import com.praktica.HelpDesk.dto.task.TaskRequestDto;
 import com.praktica.HelpDesk.dto.task.TaskResponseDto;
 import com.praktica.HelpDesk.mapper.TaskMapper;
 import com.praktica.HelpDesk.service.TaskService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,7 +23,7 @@ public class BaseTaskController {
     private final TaskMapper taskMapper;
 
     @PostMapping
-    public ResponseEntity<TaskResponseDto> createTask(@RequestBody TaskRequestDto taskRequestDto, Principal principal) {
+    public ResponseEntity<TaskResponseDto> createTask(@Valid @RequestBody TaskRequestDto taskRequestDto, Principal principal) {
         return ResponseEntity.ok(taskMapper.toDto(taskService.create(taskRequestDto,principal)));
     }
 

@@ -6,7 +6,9 @@ import com.praktica.HelpDesk.dto.user.UserUpdateDto;
 import com.praktica.HelpDesk.entity.Role;
 import com.praktica.HelpDesk.entity.UserEntity;
 import com.praktica.HelpDesk.mapper.UserMapper;
+import com.praktica.HelpDesk.secutiry.Encoder;
 import com.praktica.HelpDesk.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final Encoder encoder;
     private final UserMapper userMapper;
 
     @GetMapping()
@@ -51,7 +54,7 @@ public class UserController {
     @PatchMapping("/{userId}")
     public ResponseEntity<UserResponseDto> updateUser(
             @PathVariable("userId") Long id,
-            @RequestBody UserUpdateDto usesUpdateDto
+            @Valid @RequestBody UserUpdateDto usesUpdateDto
     ) {
         return ResponseEntity.ok(userMapper.toDto(userService.updateUser(id, usesUpdateDto)));
     }
@@ -66,7 +69,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<UserResponseDto> createCustomUser(@RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<UserResponseDto> createCustomUser(@Valid @RequestBody UserRequestDto userRequestDto) {
         return ResponseEntity.ok(userMapper.toDto(
                 userService.registerUser(UserEntity.builder()
                         .isActive(true)
@@ -74,7 +77,7 @@ public class UserController {
                         .firstName(userRequestDto.getFirstName())
                         .secondName(userRequestDto.getSecondName())
                         .lastName(userRequestDto.getLastName())
-                        .password(userRequestDto.getPassword())
+                        .password(encoder.encode(userRequestDto.getPassword()))
                         .email(userRequestDto.getEmail())
                         .build())));
     }

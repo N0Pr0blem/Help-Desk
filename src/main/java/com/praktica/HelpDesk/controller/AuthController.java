@@ -7,6 +7,7 @@ import com.praktica.HelpDesk.dto.user.UserResponseDto;
 import com.praktica.HelpDesk.mapper.UserMapper;
 import com.praktica.HelpDesk.secutiry.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +21,13 @@ public class AuthController {
 
     @PostMapping("/register")
     @Operation(summary = "Register new user")
-    public ResponseEntity<UserResponseDto> register(@RequestBody RegisterRequestDto registerRequestDto){
+    public ResponseEntity<UserResponseDto> register(@Valid @RequestBody RegisterRequestDto registerRequestDto){
         return ResponseEntity.ok(userMapper.toDto(authService.registerUser(registerRequestDto)));
     }
 
     @PostMapping("/login")
     @Operation(summary = "Authenticate user")
-    public AuthResponseDto login(@RequestBody AuthRequestDto authRequestDto){
+    public AuthResponseDto login(@Valid @RequestBody AuthRequestDto authRequestDto){
         return authService.authenticateUser(authRequestDto);
     }
 
