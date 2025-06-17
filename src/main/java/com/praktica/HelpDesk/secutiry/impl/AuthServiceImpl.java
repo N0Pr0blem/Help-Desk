@@ -6,6 +6,7 @@ import com.praktica.HelpDesk.dto.auth.RegisterRequestDto;
 import com.praktica.HelpDesk.dto.user.UserResponseDto;
 import com.praktica.HelpDesk.entity.Role;
 import com.praktica.HelpDesk.entity.UserEntity;
+import com.praktica.HelpDesk.exception.UserException;
 import com.praktica.HelpDesk.secutiry.AuthService;
 import com.praktica.HelpDesk.secutiry.SecurityService;
 import com.praktica.HelpDesk.secutiry.TokenDetails;
@@ -46,5 +47,10 @@ public class AuthServiceImpl implements AuthService {
                 .issuedAt(tokenDetails.getIssuedAt())
                 .role(tokenDetails.getRole())
                 .build();
+    }
+
+    @Override
+    public void activateUser(String code) {
+        userService.activateUser(code);
     }
 }

@@ -1,5 +1,6 @@
 package com.praktica.HelpDesk.secutiry;
 
+import com.praktica.HelpDesk.exception.ApiException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
@@ -22,7 +23,7 @@ public class JwtHandler {
         final Date expirationDate = claims.getExpiration();
 
         if(expirationDate.before(new Date())){
-            throw new RuntimeException("Token expired");
+            throw new ApiException("Token expired","TOKEN_EXCEPTION");
         }
 
         return  new VerificationResult(claims, token);

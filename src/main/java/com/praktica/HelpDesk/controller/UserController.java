@@ -1,7 +1,9 @@
 package com.praktica.HelpDesk.controller;
 
+import com.praktica.HelpDesk.dto.user.UserRequestDto;
 import com.praktica.HelpDesk.dto.user.UserResponseDto;
 import com.praktica.HelpDesk.dto.user.UserUpdateDto;
+import com.praktica.HelpDesk.entity.Role;
 import com.praktica.HelpDesk.entity.UserEntity;
 import com.praktica.HelpDesk.mapper.UserMapper;
 import com.praktica.HelpDesk.service.UserService;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -50,12 +53,29 @@ public class UserController {
             @PathVariable("userId") Long id,
             @RequestBody UserUpdateDto usesUpdateDto
     ) {
-        return ResponseEntity.ok(userMapper.toDto(userService.updateUser(id,usesUpdateDto)));
+        return ResponseEntity.ok(userMapper.toDto(userService.updateUser(id, usesUpdateDto)));
     }
 
-    @GetMapping("/activate")
-    public ResponseEntity<String> activateUser(@RequestParam("code") String code){
-        userService.activateUser(code);
-        return ResponseEntity.ok("User successfully activate");
+    @PatchMapping("/active/{userId}")
+    public ResponseEntity<UserResponseDto> changeActive(
+            @PathVariable("userId") Long userId,
+            @RequestParam boolean isActive,
+            Principal principal
+    ) {
+        return ResponseEntity.ok(userMapper.toDto(userService.changeActive(isActive, userId, principal)));
+    }
+
+    @PostMapping()
+    public ResponseEntity<UserResponseDto> createCustomUser(@RequestBody UserRequestDto userRequestDto) {
+        return ResponseEntity.ok(userMapper.toDto(
+                userService.registerUser(UserEntity.builder()
+                        .isActive(true)
+                        .role(Role.fromString(userRequestDto.getRole()))
+                        .firstName(userRequestDto.getFirstName())
+                        .secondName(userRequestDto.getSecondName())
+                        .lastName(userRequestDto.getLastName())
+                        .password(userRequestDto.getPassword())
+                        .email(userRequestDto.getEmail())
+                        .build())));
     }
 }

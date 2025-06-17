@@ -26,4 +26,6 @@ public interface UserService {
     void activateUser(String code);
 
     UserEntity getProfile(Principal principal);
+
+    UserEntity changeActive(boolean isActive, Long userId,Principal principal);
 }

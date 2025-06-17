@@ -9,5 +9,6 @@ import com.praktica.HelpDesk.entity.UserEntity;
 public interface AuthService {
     UserEntity registerUser(RegisterRequestDto registerRequestDto);
     AuthResponseDto authenticateUser(AuthRequestDto authRequestDto);
+    void activateUser(String code);
 }
 
