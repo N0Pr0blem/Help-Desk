@@ -9,5 +9,10 @@ import java.security.Principal;
 @AllArgsConstructor
 public class CustomPrincipal implements Principal {
     private Long id;
-    private String name;
+    private String email;
+
+    @Override
+    public String getName() {
+        return email;
+    }
 }

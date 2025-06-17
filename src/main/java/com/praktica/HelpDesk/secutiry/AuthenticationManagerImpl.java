@@ -19,7 +19,7 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         CustomPrincipal principal = (CustomPrincipal) authentication.getPrincipal();
         UserEntity userEntity = userService.getById(principal.getId());
-
+        System.out.println(principal.getName());
         if (!userEntity.isActive()) {
             throw new AuthException("This user hasn't been activated", "INACTIVE_USER");
         }

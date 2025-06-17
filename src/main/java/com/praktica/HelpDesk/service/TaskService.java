@@ -5,6 +5,7 @@ import com.praktica.HelpDesk.dto.task.TaskRequestDto;
 import com.praktica.HelpDesk.entity.Task;
 import org.springframework.data.domain.Pageable;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface TaskService {
@@ -14,7 +15,7 @@ public interface TaskService {
 
     Task getById(Long taskId);
 
-    Task create(TaskRequestDto taskRequestDto);
+    Task create(TaskRequestDto taskRequestDto, Principal principal);
 
     void deleteById(Long id);
 }

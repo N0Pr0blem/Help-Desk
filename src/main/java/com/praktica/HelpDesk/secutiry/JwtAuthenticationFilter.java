@@ -25,20 +25,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserService userService;
 
-    //В данном методе хардкод. Метод getEmailFromToken возвращает почему-то id пользователя
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
         String header = request.getHeader("Authorization");
-        System.out.println(header);
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.substring(7);
             if (securityService.validateToken(token)) {
-                Long userId = Long.parseLong(securityService.getEmailFromToken(token));
-                UserEntity userEntity = userService.getById(userId);
-                String email = userEntity.getEmail();
-                String role = userEntity.getRole().toString();
+                String email = securityService.getEmailFromToken(token);
+                String role = userService.getByEmail(email).getRole().toString();
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(email, null, List.of(new SimpleGrantedAuthority(role)));
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
