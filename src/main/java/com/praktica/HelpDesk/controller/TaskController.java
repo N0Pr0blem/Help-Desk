@@ -48,8 +48,8 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<TaskResponseDto> createTask(@RequestBody TaskRequestDto taskRequestDto) {
-        return ResponseEntity.ok(taskMapper.toDto(taskService.create(taskRequestDto)));
+    public ResponseEntity<TaskResponseDto> createTask(@RequestBody TaskRequestDto taskRequestDto, Principal principal) {
+        return ResponseEntity.ok(taskMapper.toDto(taskService.create(taskRequestDto,principal)));
     }
 
     @DeleteMapping("/{taskId}")

@@ -13,8 +13,8 @@ import java.util.Date;
 @Builder(toBuilder = true)
 public class TokenDetails {
     private Long id;
-    private String role;
     private String token;
     private Date issuedAt;
     private Date expiredAt;
+    private String role;
 }

@@ -64,11 +64,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task create(TaskRequestDto taskRequestDto) {
+    public Task create(TaskRequestDto taskRequestDto,Principal principal) {
         return taskRepository.save(Task.builder()
                 .createdAt(LocalDateTime.now())
                 .description(taskRequestDto.getDescription())
-                .fromUser(userService.getById(taskRequestDto.getFromUserId()))
+                .fromUser(userService.getByEmail(principal.getName()))
                 .status(TaskStatus.WAIT)
                 .build());
     }
