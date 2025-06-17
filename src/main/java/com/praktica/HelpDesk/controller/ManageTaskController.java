@@ -1,7 +1,6 @@
 package com.praktica.HelpDesk.controller;
 
 import com.praktica.HelpDesk.dto.filter.TaskFilter;
-import com.praktica.HelpDesk.dto.task.TaskRequestDto;
 import com.praktica.HelpDesk.dto.task.TaskResponseDto;
 import com.praktica.HelpDesk.entity.TaskStatus;
 import com.praktica.HelpDesk.mapper.TaskMapper;
@@ -11,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -18,14 +18,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/tasks")
 @RequiredArgsConstructor
-public class TaskController {
+@RequestMapping("/api/v1/admin/tasks")
+@PreAuthorize("hasAnyAuthority('ADMIN','SYSADMIN')")
+public class ManageTaskController {
 
     private final TaskService taskService;
     private final TaskMapper taskMapper;
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<List<TaskResponseDto>> getAllTasks(
             @RequestParam(required = false) LocalDateTime createdAt,
             @RequestParam(required = false) LocalDateTime finishedAt,
@@ -47,9 +48,19 @@ public class TaskController {
         return ResponseEntity.ok(taskMapper.toDto(taskService.getById(taskId)));
     }
 
-    @PostMapping
-    public ResponseEntity<TaskResponseDto> createTask(@RequestBody TaskRequestDto taskRequestDto, Principal principal) {
-        return ResponseEntity.ok(taskMapper.toDto(taskService.create(taskRequestDto,principal)));
+    @GetMapping("/my")
+    public ResponseEntity<List<TaskResponseDto>> getSysadminTasks(Principal principal){
+        return ResponseEntity.ok(taskMapper.toDtos(taskService.getSysadminsTasks(principal)));
+    }
+
+    @PostMapping("/take/{taskId}")
+    public ResponseEntity<TaskResponseDto> takeTask(@PathVariable("taskId")Long taskId, Principal principal){
+        return ResponseEntity.ok(taskMapper.toDto(taskService.takeTask(taskId, principal)));
+    }
+
+    @PostMapping("/finish/{taskId}")
+    public ResponseEntity<TaskResponseDto> finishTask(@PathVariable("taskId")Long taskId, Principal principal){
+        return ResponseEntity.ok(taskMapper.toDto(taskService.finishTask(taskId, principal)));
     }
 
     @DeleteMapping("/{taskId}")

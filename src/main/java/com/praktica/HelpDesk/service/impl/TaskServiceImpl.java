@@ -4,9 +4,9 @@ import com.praktica.HelpDesk.dto.filter.TaskFilter;
 import com.praktica.HelpDesk.dto.task.TaskRequestDto;
 import com.praktica.HelpDesk.entity.Task;
 import com.praktica.HelpDesk.entity.TaskStatus;
+import com.praktica.HelpDesk.entity.UserEntity;
 import com.praktica.HelpDesk.exception.TaskException;
 import com.praktica.HelpDesk.repository.TaskRepository;
-import com.praktica.HelpDesk.secutiry.CustomPrincipal;
 import com.praktica.HelpDesk.service.TaskService;
 import com.praktica.HelpDesk.service.UserService;
 import jakarta.persistence.criteria.Predicate;
@@ -36,7 +36,7 @@ public class TaskServiceImpl implements TaskService {
     public List<Task> getAll(TaskFilter taskFilter, Pageable pageable) {
         Specification<Task> spec = buildSpecification(taskFilter);
 
-        return taskRepository.findAll(spec,pageable).stream().toList();
+        return taskRepository.findAll(spec, pageable).stream().toList();
     }
 
     private Specification<Task> buildSpecification(TaskFilter filter) {
@@ -64,7 +64,15 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task create(TaskRequestDto taskRequestDto,Principal principal) {
+    public Task getById(Long taskId, Principal principal) {
+        Task task = getById(taskId);
+        UserEntity userEntity = userService.getByEmail(principal.getName());
+        if (task.getFromUser().getId().equals(userEntity.getId())) return task;
+        else throw new TaskException("It's doesn't your task", "TASK_ACCESS_EXCEPTION");
+    }
+
+    @Override
+    public Task create(TaskRequestDto taskRequestDto, Principal principal) {
         return taskRepository.save(Task.builder()
                 .createdAt(LocalDateTime.now())
                 .description(taskRequestDto.getDescription())
@@ -77,5 +85,49 @@ public class TaskServiceImpl implements TaskService {
     public void deleteById(Long id) {
         Task task = getById(id);
         taskRepository.delete(task);
+    }
+
+    @Override
+    public List<Task> getUsersTasks(Principal principal) {
+        UserEntity userEntity = userService.getByEmail(principal.getName());
+
+        return taskRepository.findTasksByUserId(userEntity.getId());
+    }
+
+    @Override
+    public List<Task> getSysadminsTasks(Principal principal) {
+        UserEntity userEntity = userService.getByEmail(principal.getName());
+
+        return taskRepository.findTasksBySysadminsId(userEntity.getId());
+    }
+
+    @Override
+    public Task takeTask(Long taskId, Principal principal) {
+        UserEntity user = userService.getByEmail(principal.getName());
+        Task task = getById(taskId);
+
+        if (task.getToUser()==null) {
+            task.setToUser(user);
+            task.setStatus(TaskStatus.IN_PROGRESS);
+        }
+        else throw new TaskException("This task is already in progress","TASK_TAKE_EXCEPTION");
+
+        return taskRepository.save(task);
+    }
+
+    @Override
+    public Task finishTask(Long taskId, Principal principal) {
+        UserEntity user = userService.getByEmail(principal.getName());
+        Task task = getById(taskId);
+
+        if(task.getStatus().equals(TaskStatus.FINISHED)) throw new TaskException("Task already finished","TASK_STATUS_EXCEPTION");
+        else if(task.getStatus().equals(TaskStatus.WAIT)) throw new TaskException("You should take task to finish it","TASK_STATUS_EXCEPTION");
+
+        if (task.getToUser().getId().equals(user.getId())) {
+            task.setStatus(TaskStatus.FINISHED);
+            task.setFinishedAt(LocalDateTime.now());
+        } else throw new TaskException("You can't close not your's task", "TASK_ACCESS_EXCEPTION");
+
+        return taskRepository.save(task);
     }
 }
