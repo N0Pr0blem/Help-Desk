@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(()->new UserException("Such user doesn't exist", "NO_SUCH_USER_EXCEPTION"));
+                .orElseThrow(() -> new UserException("Such user doesn't exist", "NO_SUCH_USER_EXCEPTION"));
     }
 
     @Override
@@ -47,12 +48,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity updateUser(Long id, UserUpdateDto userUpdateDto) {
         UserEntity user = getById(id);
-        if(userUpdateDto.getFirstName()!=null) user.setFirstName(userUpdateDto.getFirstName());
-        if(userUpdateDto.getSecondName()!=null) user.setSecondName(userUpdateDto.getSecondName());
-        if(userUpdateDto.getLastName()!=null) user.setLastName(userUpdateDto.getLastName());
-        if(userUpdateDto.getPassword()!=null) user.setPassword(userUpdateDto.getPassword());
+        if (userUpdateDto.getFirstName() != null) user.setFirstName(userUpdateDto.getFirstName());
+        if (userUpdateDto.getSecondName() != null) user.setSecondName(userUpdateDto.getSecondName());
+        if (userUpdateDto.getLastName() != null) user.setLastName(userUpdateDto.getLastName());
+        if (userUpdateDto.getPassword() != null) user.setPassword(userUpdateDto.getPassword());
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public UserEntity updateUser(UserUpdateDto userUpdateDto, Principal principal) {
+        UserEntity user = getByEmail(principal.getName());
+
+        return updateUser(user.getId(), userUpdateDto);
     }
 
     @Override
@@ -70,5 +78,23 @@ public class UserServiceImpl implements UserService {
                 }, () -> {
                     throw new UserException("Wrong activation code", "USER_ACTIVATION_CODE_EXCEPTION");
                 });
+    }
+
+    @Override
+    public UserEntity getProfile(Principal principal) {
+        UserEntity user = getByEmail(principal.getName());
+        return getById(user.getId());
+    }
+
+    @Override
+    public UserEntity changeActive(boolean isActive, Long userId, Principal principal) {
+        UserEntity admin = getByEmail(principal.getName());
+        if(!admin.getId().equals(userId)) {
+            UserEntity user = getById(userId);
+            user.setActive(isActive);
+
+            return userRepository.save(user);
+        }
+        else throw new UserException("You can't change your activity","");
     }
 }
