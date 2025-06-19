@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
+import Image from "/projectX.jpg"; // Если файл лежит в `public/projectX.jpg`
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -11,21 +12,16 @@ const HomePage = () => {
         <div className="home-text">
           <h1>Добро пожаловать в Help Desk</h1>
           <p className="lead">
-            Сервис для быстрой обработки заявок и технической поддержки внутри вашей компании. Упрощайте процессы, экономьте время.
+            Сервис для быстрой обработки заявок и технической поддержки внутри нашей компании. Упрощайте процессы, экономьте время.
           </p>
           <ul className="features">
             <li>✔ Оставляйте заявки онлайн</li>
             <li>✔ Отслеживайте статус обработки</li>
             <li>✔ Простой и понятный интерфейс</li>
           </ul>
-          <div className="home-buttons">
-            <button onClick={() => navigate("/login")}>Войти</button>
-            <button className="secondary" onClick={() => navigate("/register")}>Регистрация</button>
-          </div>
         </div>
         <div className="home-image">
-          {/* Тут может быть любая картинка или SVG */}
-          <img src="https://via.placeholder.com/400x300?text=Support+Illustration" alt="Support Illustration" />
+          <img src={Image} alt="Support Illustration" />
         </div>
       </div>
     </div>
