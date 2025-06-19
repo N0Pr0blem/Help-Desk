@@ -1,0 +1,77 @@
+.profile-container {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
+    margin-top: 110px;
+    padding: 20px 70px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 80, 255, 0.08);
+  }
+
+
+  .profile-container h2 {
+    color: #1d4ed8;
+    margin-bottom: 20px;
+  }
+  
+  .user-form {
+    margin-bottom: 30px;
+  }
+  
+  .user-form label {
+    display: block;
+    margin-top: 10px;
+    color: #334155;
+    font-weight: 500;
+  }
+  
+  .user-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: #f9fafb;
+    margin-bottom: 10px;
+    color: #1f2937;
+  }
+  
+  .user-form button {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  .task-list {
+    list-style: none;
+    color:#1f2937;
+    padding: 0;
+  }
+  
+h3 {
+  color: #1d4ed8;
+}
+
+  .task-list li {
+    padding: 12px;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .status {
+    font-weight: bold;
+  }
+  
+  .status.ожидание {
+    color: #f59e0b ;
+  }
+  
+  .status.обработано {
+    color: #10b981;
+  }
+  

@@ -1,0 +1,50 @@
+.navbar {
+    background-color: #f0f4f8;
+    border-bottom: 1px solid #d1d5db;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+
+   
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000; 
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+
+  
+  .logo {
+    color: #2563eb; /* насыщенный голубой */
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1rem; /* Современный способ добавить отступы между ссылками */
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: #4b5563; /* серый */
+    font-weight: 500;
+    transition: color 0.3s;
+    padding: 0.5rem 1rem; /* Добавляем отступы для лучшего клика */
+    border-radius: 0.25rem; /* Скругляем углы */
+  }
+  
+  .nav-links a:hover {
+    color: #2563eb;
+    background-color: rgba(37, 99, 235, 0.1); /* Легкий голубой фон при наведении */
+  }
+  
+  .main-content {
+    padding-top: 70px; /* Примерно высота навбара + отступ */
+  }
