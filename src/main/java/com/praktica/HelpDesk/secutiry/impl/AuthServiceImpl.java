@@ -10,6 +10,7 @@ import com.praktica.HelpDesk.exception.UserException;
 import com.praktica.HelpDesk.secutiry.AuthService;
 import com.praktica.HelpDesk.secutiry.SecurityService;
 import com.praktica.HelpDesk.secutiry.TokenDetails;
+import com.praktica.HelpDesk.service.MailService;
 import com.praktica.HelpDesk.service.UserService;
 import com.praktica.HelpDesk.util.ActivationCodeGenerator;
 import lombok.RequiredArgsConstructor;
@@ -25,14 +26,19 @@ public class AuthServiceImpl implements AuthService {
     private final UserService userService;
     private final SecurityService securityService;
     private final PasswordEncoder passwordEncoder;
+    private final MailService mailService;
 
     @Override
     public UserEntity registerUser(RegisterRequestDto registerRequestDto) {
+        String activationCode = ActivationCodeGenerator.generateCode();
+
+        mailService.sendActivationCodeForm(registerRequestDto.getEmail(), activationCode);
+
         return userService.registerUser(UserEntity.builder()
                 .email(registerRequestDto.getEmail())
                 .role(Role.USER)
                 .password(passwordEncoder.encode(registerRequestDto.getPassword()))
-                .activationCode(ActivationCodeGenerator.generateCode())
+                .activationCode(activationCode)
                 .firstName(registerRequestDto.getFirstName())
                 .secondName(registerRequestDto.getSecondName())
                 .lastName(registerRequestDto.getLastName())
