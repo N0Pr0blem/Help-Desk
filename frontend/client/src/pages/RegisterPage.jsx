@@ -5,7 +5,7 @@ import "./RegisterPage.css";
 
 function RegisterPage() {
   const [formData, setFormData] = useState({
-    name: "",
+    first_name: "",
     second_name: "",
     last_name: "",
     email: "",
@@ -26,7 +26,7 @@ function RegisterPage() {
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = "Имя обязательно";
+    if (!formData.first_name.trim()) newErrors.first_name = "Имя обязательно";
     if (!formData.second_name.trim()) newErrors.second_name = "Фамилия обязательна";
     if (!formData.last_name.trim()) newErrors.last_name = "Отчество обязательно";
     if (!formData.email.trim()) newErrors.email = "Email обязателен";
@@ -43,19 +43,25 @@ function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
-  
+
     try {
       const response = await axios.post("/api/v1/auth/register", {
+        first_name: formData.first_name,
+        second_name: formData.second_name,
+        last_name: formData.last_name,
         email: formData.email,
         password: formData.password,
       });
-  
+
       console.log("Успешная регистрация:", response.data);
-      // Вместо setSuccessMessage делаем навигацию с передачей состояния
-      navigate("/login", { state: { successMessage: "Регистрация прошла успешно! Проверьте почту для активации." } });
+      navigate("/verificate", {
+        state: {
+          successMessage: "Регистрация прошла успешно! Проверьте почту для активации.",
+        },
+      });
     } catch (error) {
       console.error("Ошибка регистрации:", error);
-  
+
       let message = "Неизвестная ошибка";
       if (error.response?.data) {
         if (error.response.data.USER_EXIST_EXCEPTION) {
@@ -68,11 +74,10 @@ function RegisterPage() {
       } else if (error.message) {
         message = error.message;
       }
-  
+
       alert("Ошибка регистрации: " + message);
     }
   };
-  
 
   return (
     <div className="register-container">
@@ -82,11 +87,11 @@ function RegisterPage() {
         <label>Имя</label>
         <input
           type="text"
-          name="name"
-          value={formData.name}
+          name="first_name"
+          value={formData.first_name}
           onChange={handleChange}
         />
-        {errors.name && <p className="error">{errors.name}</p>}
+        {errors.first_name && <p className="error">{errors.first_name}</p>}
 
         <label>Фамилия</label>
         <input

@@ -5,6 +5,7 @@ import RegisterPage from "./pages/RegisterPage";
 import Navbar from "./components/Navbar";
 import ProfilePage from "./pages/ProfilePage";
 import CreateTaskPage from "./pages/CreateTaskPage";
+import VerificationPage from "./pages/VerificationPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/create-task" element={<CreateTaskPage />} />
+        <Route path="/verificate" element={<VerificationPage />} />
       </Routes>
     </div>
   );
