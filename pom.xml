@@ -16,7 +16,7 @@
 
 	<properties>
 		<java.version>17</java.version>
-		<mapstruct.version>1.6.2</mapstruct.version>
+		<mapstruct.version>1.5.5.Final</mapstruct.version>
 		<openapi.version>2.5.0</openapi.version>
 		<jjwt.version>0.12.6</jjwt.version>
 		<jaxb-api.version>2.4.0-b180830.0359</jaxb-api.version>
@@ -105,6 +105,10 @@
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-impl</artifactId>
 			<version>${jjwt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 	</dependencies>
 

@@ -5,6 +5,7 @@ import com.praktica.HelpDesk.entity.UserEntity;
 import com.praktica.HelpDesk.exception.AuthException;
 import com.praktica.HelpDesk.exception.UserException;
 import com.praktica.HelpDesk.repository.UserRepository;
+import com.praktica.HelpDesk.service.MailService;
 import com.praktica.HelpDesk.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

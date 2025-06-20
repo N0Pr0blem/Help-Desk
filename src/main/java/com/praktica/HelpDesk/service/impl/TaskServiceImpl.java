@@ -2,11 +2,13 @@ package com.praktica.HelpDesk.service.impl;
 
 import com.praktica.HelpDesk.dto.filter.TaskFilter;
 import com.praktica.HelpDesk.dto.task.TaskRequestDto;
+import com.praktica.HelpDesk.entity.Role;
 import com.praktica.HelpDesk.entity.Task;
 import com.praktica.HelpDesk.entity.TaskStatus;
 import com.praktica.HelpDesk.entity.UserEntity;
 import com.praktica.HelpDesk.exception.TaskException;
 import com.praktica.HelpDesk.repository.TaskRepository;
+import com.praktica.HelpDesk.service.MailService;
 import com.praktica.HelpDesk.service.TaskService;
 import com.praktica.HelpDesk.service.UserService;
 import jakarta.persistence.criteria.Predicate;
@@ -26,6 +28,7 @@ public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository taskRepository;
     private final UserService userService;
+    private final MailService mailService;
 
     @Override
     public List<Task> getAll() {
@@ -73,6 +76,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task create(TaskRequestDto taskRequestDto, Principal principal) {
+        mailService.sendInformationForm(principal.getName(), "Ваша задача успешно создана. Ожидайте.");
+        notificationAllSysadmins();
+
         return taskRepository.save(Task.builder()
                 .createdAt(LocalDateTime.now())
                 .description(taskRequestDto.getDescription())
@@ -109,6 +115,7 @@ public class TaskServiceImpl implements TaskService {
         if (task.getToUser()==null) {
             task.setToUser(user);
             task.setStatus(TaskStatus.IN_PROGRESS);
+            mailService.sendInformationForm(task.getFromUser().getEmail(),"Статус задачи сменился на 'В процессе выполнения'");
         }
         else throw new TaskException("This task is already in progress","TASK_TAKE_EXCEPTION");
 
@@ -126,8 +133,15 @@ public class TaskServiceImpl implements TaskService {
         if (task.getToUser().getId().equals(user.getId())) {
             task.setStatus(TaskStatus.FINISHED);
             task.setFinishedAt(LocalDateTime.now());
+            mailService.sendInformationForm(task.getFromUser().getEmail(),"Статус задачи сменился на 'Выполнена'");
         } else throw new TaskException("You can't close not your's task", "TASK_ACCESS_EXCEPTION");
 
         return taskRepository.save(task);
+    }
+
+    private void notificationAllSysadmins(){
+        userService.getAll().stream()
+                .filter(user -> user.getRole().equals(Role.SYSADMIN))
+                .forEach(user-> mailService.sendInformationForm(user.getEmail(), "Появилась новая задача."));
     }
 }

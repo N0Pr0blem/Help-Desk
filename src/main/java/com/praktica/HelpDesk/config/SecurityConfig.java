@@ -19,7 +19,7 @@ public class SecurityConfig {
             "/api/v1/auth/register",
             "/api/v1/auth/login",
             "/api/v1/auth/up/**",
-            "/api/v1/auth/activate/*",
+            "/api/v1/auth/activate",
             "/api/v1/swagger-ui/*",
             "/api/v1/swagger-ui.html",
             "/webjars/swagger-ui/**",
