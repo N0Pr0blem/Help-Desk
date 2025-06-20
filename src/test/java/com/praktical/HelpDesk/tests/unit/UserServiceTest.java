@@ -3,6 +3,7 @@ package com.praktical.HelpDesk.tests.unit;
 import com.praktica.HelpDesk.repository.UserRepository;
 import com.praktica.HelpDesk.entity.UserEntity;
 import com.praktica.HelpDesk.service.UserService;
+import com.praktica.HelpDesk.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -16,24 +17,26 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
-
     @Mock
     private UserRepository userRepository;
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @Test
-    public void getUserById_ShouldReturnUser() {
-        UserEntity mockUser = UserEntity.builder()
-                .id(1L)
-                .email("test@example.com")
-                .build();
+    void getUserById_ShouldReturnUser() {
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+        UserEntity expectedUser = new UserEntity();
+        expectedUser.setId(1L);
+        expectedUser.setEmail("test@example.com");
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(expectedUser));
 
         UserEntity result = userService.getById(1L);
+
+        assertNotNull(result);
         assertEquals(1L, result.getId());
-        assertEquals("test@example.com", result.getEmail());  
+        assertEquals("test@example.com", result.getEmail());
+        verify(userRepository).findById(1L);
     }
 }
