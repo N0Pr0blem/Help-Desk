@@ -33,6 +33,9 @@ public class AuthServiceImpl implements AuthService {
                 .role(Role.USER)
                 .password(passwordEncoder.encode(registerRequestDto.getPassword()))
                 .activationCode(ActivationCodeGenerator.generateCode())
+                .firstName(registerRequestDto.getFirstName())
+                .secondName(registerRequestDto.getSecondName())
+                .lastName(registerRequestDto.getLastName())
                 .isActive(false)
                 .build());
     }
