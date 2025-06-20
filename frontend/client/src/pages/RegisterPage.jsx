@@ -1,4 +1,6 @@
+import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
 
 function RegisterPage() {
@@ -11,7 +13,9 @@ function RegisterPage() {
     confirmPassword: "",
   });
 
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -23,7 +27,7 @@ function RegisterPage() {
   const validate = () => {
     const newErrors = {};
     if (!formData.name.trim()) newErrors.name = "Имя обязательно";
-    if (!formData.second_name.trim()) newErrors.second_name = "Фамилия обязательно";
+    if (!formData.second_name.trim()) newErrors.second_name = "Фамилия обязательна";
     if (!formData.last_name.trim()) newErrors.last_name = "Отчество обязательно";
     if (!formData.email.trim()) newErrors.email = "Email обязателен";
     else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Некорректный email";
@@ -31,23 +35,49 @@ function RegisterPage() {
     else if (formData.password.length < 6) newErrors.password = "Минимум 6 символов";
     if (formData.confirmPassword !== formData.password)
       newErrors.confirmPassword = "Пароли не совпадают";
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-   
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
-
-    console.log("Регистрация:", formData);
-    // тут запросы на бэкенд
+  
+    try {
+      const response = await axios.post("/api/v1/auth/register", {
+        email: formData.email,
+        password: formData.password,
+      });
+  
+      console.log("Успешная регистрация:", response.data);
+      // Вместо setSuccessMessage делаем навигацию с передачей состояния
+      navigate("/login", { state: { successMessage: "Регистрация прошла успешно! Проверьте почту для активации." } });
+    } catch (error) {
+      console.error("Ошибка регистрации:", error);
+  
+      let message = "Неизвестная ошибка";
+      if (error.response?.data) {
+        if (error.response.data.USER_EXIST_EXCEPTION) {
+          message = error.response.data.USER_EXIST_EXCEPTION;
+        } else if (error.response.data.message) {
+          message = error.response.data.message;
+        } else {
+          message = JSON.stringify(error.response.data);
+        }
+      } else if (error.message) {
+        message = error.message;
+      }
+  
+      alert("Ошибка регистрации: " + message);
+    }
   };
+  
 
   return (
     <div className="register-container">
       <form className="register-form" onSubmit={handleSubmit}>
-      <h2 class="icon-registration">Регистрация</h2>
+        <h2 className="icon-registration">Регистрация</h2>
 
         <label>Имя</label>
         <input
@@ -106,6 +136,8 @@ function RegisterPage() {
         )}
 
         <button type="submit">Зарегистрироваться</button>
+
+        {successMessage && <p className="success">{successMessage}</p>}
       </form>
     </div>
   );

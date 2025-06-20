@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./LoginPage.css";
 
 function LoginPage() {
+  const location = useLocation();
+  const successMessage = location.state?.successMessage || "";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -19,14 +23,15 @@ function LoginPage() {
     e.preventDefault();
     if (!validate()) return;
 
-    // Пока просто выводим — потом подключим отправку
     console.log("Login:", { email, password });
   };
 
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
-      <h2 class="icon-login">Вход в систему</h2>
+        <h2 className="icon-login">Вход в систему</h2>
+
+        {successMessage && <p className="success">{successMessage}</p>}
 
         <label>Email</label>
         <input
