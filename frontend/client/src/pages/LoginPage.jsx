@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "../axiosConfig"; // axios с базовым URL и перехватчиком для токена
 import "./LoginPage.css";
 
 function LoginPage() {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
 
   const validate = () => {
     const newErrors = {};
@@ -17,13 +20,26 @@ function LoginPage() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
-
-    console.log("Login:", { email, password });
+  
+    setLoading(true);
+    try {
+      const response = await axios.post("/auth/login", { email, password });
+      const token = response.data.token;
+      localStorage.setItem("token", token);
+      alert("Авторизация прошла успешно!");
+  
+      navigate("/profile");  // Перенаправляем на профиль
+    } catch (error) {
+      console.error("Ошибка входа:", error.response?.data || error.message);
+      alert("Ошибка входа: " + (error.response?.data?.message || "неизвестная ошибка"));
+    } finally {
+      setLoading(false);
+    }
   };
-
+      
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
@@ -34,6 +50,7 @@ function LoginPage() {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          disabled={loading}
         />
         {errors.email && <p className="error">{errors.email}</p>}
 
@@ -42,10 +59,13 @@ function LoginPage() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          disabled={loading}
         />
         {errors.password && <p className="error">{errors.password}</p>}
 
-        <button type="submit">Войти</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Вход..." : "Войти"}
+        </button>
       </form>
     </div>
   );
