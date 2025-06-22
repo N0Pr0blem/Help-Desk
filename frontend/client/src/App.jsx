@@ -7,6 +7,7 @@ import ProfilePage from "./pages/ProfilePage";
 import CreateTaskPage from "./pages/CreateTaskPage";
 import VerificationPage from "./pages/VerificationPage";
 import PrivateRoute from "./components/PrivateRoute";
+import AdminPanelPage from "./pages/AdminPanelPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>}/>
         <Route path="/create-task" element={<CreateTaskPage />} />
         <Route path="/verificate" element={<VerificationPage />} />
+        <Route path="/admin" element={<AdminPanelPage />} />
       </Routes>
     </div>
   );

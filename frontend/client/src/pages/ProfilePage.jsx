@@ -21,6 +21,7 @@ const ProfilePage = () => {
         setUser(response.data);
         setLoading(false);
       } catch (error) {
+        console.log("Токен при входе в ProfilePage:", localStorage.getItem("token"));
         console.error("Ошибка при загрузке профиля:", error);
         alert("Не удалось загрузить профиль");
       }

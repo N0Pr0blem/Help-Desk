@@ -9,6 +9,7 @@ const instance = axios.create({
 // Добавляем токен в каждый запрос, если он есть
 instance.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
+  console.log("Токен в запросе:", token);
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

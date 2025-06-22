@@ -41,7 +41,7 @@ function VerificationPage() {
     }
 
     try {
-      const response = await fetch(`/api/v1/auth/activate?code=${fullCode}`, {
+      const response = await fetch(`/auth/activate?code=${fullCode}`, {
         method: "GET",
       });
 
