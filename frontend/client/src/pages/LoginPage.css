@@ -92,8 +92,8 @@
 .error {
   color: #dc2626;
   font-size: 0.9rem;
-  margin-top: -10px;
-  margin-bottom: 10px;
+  margin-top: 0px !important;
+  margin-bottom: 3px !important;
 }
 
 .icon-login::before {

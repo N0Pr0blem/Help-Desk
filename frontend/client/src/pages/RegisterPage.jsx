@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../axiosConfig";
 import "./RegisterPage.css";
-import Image from "/projectX.jpg"; // или своя картинка
+import Image from "/projectX.jpg"; 
 
 function RegisterPage() {
   const [formData, setFormData] = useState({

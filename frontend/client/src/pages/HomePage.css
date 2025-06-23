@@ -69,6 +69,18 @@
   .home-buttons button:hover {
     opacity: 0.9;
   }
+
+  .button-style {
+    padding: 12px 24px;
+    margin-right: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    background-color: #3b82f6;
+    color: white;
+  }
   
   .home-image {
     flex: 1;
