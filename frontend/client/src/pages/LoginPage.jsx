@@ -34,7 +34,9 @@ function LoginPage() {
       alert("Авторизация прошла успешно!");
       navigate("/profile");
     } catch (error) {
-      alert("Ошибка входа: " + (error.response?.data?.message || "неизвестная ошибка"));
+      console.error("Full error:", error);
+  console.error("Response data:", error.response?.data);
+  alert("Ошибка входа: " + (error.response?.data?.message || error.message));
     } finally {
       setLoading(false);
     }

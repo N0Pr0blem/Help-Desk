@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import axios from "../axiosConfig"; // Используем настроенный axios
 import "./VerificationPage.css";
 
 function VerificationPage() {
@@ -41,18 +42,20 @@ function VerificationPage() {
     }
 
     try {
-      const response = await fetch(`/auth/activate?code=${fullCode}`, {
-        method: "GET",
-      });
+      // Используем axios вместо fetch
+      const response = await axios.get(`/auth/activate?code=${fullCode}`);
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error("Неверный код или ошибка сервера.");
       }
 
       setSuccess("Аккаунт успешно активирован!");
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
-      setError(err.message || "Ошибка при активации.");
+      // Подробная обработка ошибок
+      const errorMessage = err.response?.data?.message || err.message;
+      setError(errorMessage || "Ошибка при активации.");
+      console.error("Ошибка активации:", err.response?.data);
     }
   };
 
