@@ -1,11 +1,12 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "../axiosConfig";
 import "./RegisterPage.css";
+import Image from "/projectX.jpg"; 
 
 function RegisterPage() {
   const [formData, setFormData] = useState({
-    name: "",
+    first_name: "",
     second_name: "",
     last_name: "",
     email: "",
@@ -26,7 +27,7 @@ function RegisterPage() {
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.name.trim()) newErrors.name = "Имя обязательно";
+    if (!formData.first_name.trim()) newErrors.first_name = "Имя обязательно";
     if (!formData.second_name.trim()) newErrors.second_name = "Фамилия обязательна";
     if (!formData.last_name.trim()) newErrors.last_name = "Отчество обязательно";
     if (!formData.email.trim()) newErrors.email = "Email обязателен";
@@ -43,19 +44,22 @@ function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
-  
+
     try {
-      const response = await axios.post("/api/v1/auth/register", {
+      const response = await axios.post("/auth/register", {
+        first_name: formData.first_name,
+        second_name: formData.second_name,
+        last_name: formData.last_name,
         email: formData.email,
         password: formData.password,
       });
-  
-      console.log("Успешная регистрация:", response.data);
-      // Вместо setSuccessMessage делаем навигацию с передачей состояния
-      navigate("/login", { state: { successMessage: "Регистрация прошла успешно! Проверьте почту для активации." } });
+
+      navigate("/verificate", {
+        state: {
+          successMessage: "Регистрация прошла успешно! Проверьте почту для активации.",
+        },
+      });
     } catch (error) {
-      console.error("Ошибка регистрации:", error);
-  
       let message = "Неизвестная ошибка";
       if (error.response?.data) {
         if (error.response.data.USER_EXIST_EXCEPTION) {
@@ -68,77 +72,54 @@ function RegisterPage() {
       } else if (error.message) {
         message = error.message;
       }
-  
       alert("Ошибка регистрации: " + message);
     }
   };
-  
 
   return (
-    <div className="register-container">
-      <form className="register-form" onSubmit={handleSubmit}>
-        <h2 className="icon-registration">Регистрация</h2>
+    <div className="register-wrapper">
+      <div className="register-content">
+        <div className="register-left">
+          <form className="register-form" onSubmit={handleSubmit}>
+            <h2 className="icon-registration">Регистрация</h2>
 
-        <label>Имя</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-        />
-        {errors.name && <p className="error">{errors.name}</p>}
+            <label>Имя</label>
+            <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} />
+            {errors.first_name && <p className="error">{errors.first_name}</p>}
 
-        <label>Фамилия</label>
-        <input
-          type="text"
-          name="second_name"
-          value={formData.second_name}
-          onChange={handleChange}
-        />
-        {errors.second_name && <p className="error">{errors.second_name}</p>}
+            <label>Фамилия</label>
+            <input type="text" name="second_name" value={formData.second_name} onChange={handleChange} />
+            {errors.second_name && <p className="error">{errors.second_name}</p>}
 
-        <label>Отчество</label>
-        <input
-          type="text"
-          name="last_name"
-          value={formData.last_name}
-          onChange={handleChange}
-        />
-        {errors.last_name && <p className="error">{errors.last_name}</p>}
+            <label>Отчество</label>
+            <input type="text" name="last_name" value={formData.last_name} onChange={handleChange} />
+            {errors.last_name && <p className="error">{errors.last_name}</p>}
 
-        <label>Email</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        {errors.email && <p className="error">{errors.email}</p>}
+            <label>Email</label>
+            <input type="email" name="email" value={formData.email} onChange={handleChange} />
+            {errors.email && <p className="error">{errors.email}</p>}
 
-        <label>Пароль</label>
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        {errors.password && <p className="error">{errors.password}</p>}
+            <label>Пароль</label>
+            <input type="password" name="password" value={formData.password} onChange={handleChange} />
+            {errors.password && <p className="error">{errors.password}</p>}
 
-        <label>Повторите пароль</label>
-        <input
-          type="password"
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-        />
-        {errors.confirmPassword && (
-          <p className="error">{errors.confirmPassword}</p>
-        )}
+            <label>Повторите пароль</label>
+            <input
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+            />
+            {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
 
-        <button type="submit">Зарегистрироваться</button>
-
-        {successMessage && <p className="success">{successMessage}</p>}
-      </form>
+            <button type="submit">Зарегистрироваться</button>
+            {successMessage && <p className="success">{successMessage}</p>}
+          </form>
+        </div>
+        <div className="register-image">
+          <img src={Image} alt="Регистрация" />
+        </div>
+      </div>
     </div>
   );
 }

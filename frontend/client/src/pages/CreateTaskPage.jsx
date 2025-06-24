@@ -1,26 +1,33 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./CreateTaskPage.css";
 
 const CreateTaskPage = () => {
   const [text, setText] = useState("");
-  const [image, setImage] = useState(null);
-  const [preview, setPreview] = useState(null);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
-    setPreview(URL.createObjectURL(file));
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("text", text);
-    if (image) formData.append("image", image);
+    try {
+      const response = await axios.post("http://localhost:8080/api/v1/tasks",
+        { description: text },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          }
+        }
+      );
 
-    console.log("Отправка заявки:", text, image);
-    // Здесь отправка formData на бэк
+      console.log("Заявка отправлена:", response.data);
+      alert("Заявка успешно отправлена!");
+
+      // Сброс формы
+      setText("");
+    } catch (error) {
+      console.error("Ошибка при отправке заявки:", error);
+      alert("Не удалось отправить заявку. Попробуйте позже.");
+    }
   };
 
   return (
@@ -33,12 +40,8 @@ const CreateTaskPage = () => {
           onChange={(e) => setText(e.target.value)}
           rows="5"
           placeholder="Опишите вашу проблему..."
+          required
         />
-
-        <label>Прикрепить изображение (необязательно)</label>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-
-        {preview && <img className="image-preview" src={preview} alt="Preview" />}
 
         <button type="submit">Отправить</button>
       </form>

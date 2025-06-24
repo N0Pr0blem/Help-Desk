@@ -1,0 +1,265 @@
+.admin-wrapper {
+    min-height: 100vh;
+    background-color: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 20px;
+  }
+  
+  .admin-content {
+    background-color: white;
+    box-shadow: 0 8px 24px rgba(0, 80, 255, 0.08);
+    border-radius: 16px;
+    max-width: 1000px;
+    width: 100%;
+    height: auto;
+    padding: 40px 50px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+    margin-top: 120px;
+  }
+  
+  .admin-content h2 {
+    margin-top: 0px !important;
+    font-size: 2rem;
+    color: #1d4ed8;
+    margin-bottom: 1.8rem;
+    text-align: center;
+  }
+  
+  .admin-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .admin-actions button {
+    padding: 12px 24px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .admin-actions button:hover {
+    background-color: #2563eb;
+  }
+  
+  .admin-search {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  
+  .admin-search label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    color: #374151;
+    font-size: 1rem;
+  }
+  
+  .admin-search input {
+    width: 220px;
+    padding: 10px;
+    margin-top: 6px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: #f9fafb;
+    color: #1f2937;
+    font-size: 1rem;
+  }
+  
+  .admin-search input:focus {
+    outline: none;
+    border-color: #60a5fa;
+    background-color: #ffffff;
+  }
+  
+  .admin-search button {
+    padding: 12px 30px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    margin-top: 25px !important;
+    margin-right: 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    align-self: flex-end;
+  }
+  
+  .admin-search button:hover {
+    background-color: #2563eb;
+  }
+  
+  .admin-search button:disabled {
+    background-color: #a5b4fc;
+    cursor: not-allowed;
+  }
+  
+  .admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-sizing: border-box;
+  }
+  
+  .admin-table th,
+  .admin-table td {
+    text-align: left;
+    padding: 12px 15px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 0.95rem;
+    color: #374151;
+  }
+  
+  .admin-table th {
+    background-color: #eff6ff;
+    color: #1e40af;
+    font-weight: 600;
+  }
+  
+  .admin-table tbody tr:hover {
+    background-color: #f9fafb;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .action-btn {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background-color 0.3s;
+  }
+  
+  .action-btn.edit-btn {
+    background-color: #3b82f6 !important;
+    color: white;
+  }
+  .action-btn.edit-btn:hover {
+    background-color: #2563eb !important;
+  }
+  
+  .action-btn.delete-btn {
+    background-color: #ef4444 !important;
+    color: white;
+  }
+  .action-btn.delete-btn:hover {
+    background-color: #b91c1c !important;
+  }
+  
+  .action-btn.activate {
+    background-color: #10b981 !important; /* зелёный */
+    color: white;
+  }
+  .action-btn.activate:hover {
+    background-color: #059669 !important;
+  }
+  
+  .action-btn.deactivate {
+    background-color: #f59e0b !important; /* жёлтый */
+    color: white;
+  }
+  .action-btn.deactivate:hover {
+    background-color: #d97706 !important;
+  }
+  
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    font-weight: 600;
+    color: #374151;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .pagination button:disabled {
+    background-color: #a5b4fc;
+    cursor: default;
+  }
+  
+  .pagination button:hover:not(:disabled) {
+    background-color: #2563eb;
+  }
+  
+  .error-message {
+    color: #dc2626;
+    font-size: 0.9rem;
+    margin-top: -10px;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  
+  .loading-message,
+  .no-users-message {
+    text-align: center;
+    color: #374151;
+    font-weight: 600;
+    margin: 20px 0;
+  }
+  
+  @media (max-width: 768px) {
+    .admin-content {
+      padding: 30px 25px;
+    }
+  
+    .admin-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .admin-search {
+      flex-direction: column;
+      gap: 15px;
+    }
+  
+    .admin-search input {
+      width: 100%;
+    }
+  
+    .admin-table th,
+    .admin-table td {
+      padding: 10px 8px;
+      font-size: 0.9rem;
+    }
+  
+    .action-buttons button {
+      padding: 8px 12px;
+      font-size: 0.85rem;
+    }
+  
+    .pagination {
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+  

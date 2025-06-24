@@ -1,0 +1,85 @@
+.create-user-wrapper {
+    min-height: 100vh;
+    background-color: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .create-user-form {
+    background-color: white;
+    padding: 40px 50px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 80, 255, 0.08);
+    max-width: 500px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .create-user-form h2 {
+    color: #1d4ed8;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .create-user-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .create-user-form label {
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    color: #374151;
+    font-weight: 500;
+  }
+  
+  .create-user-form input,
+  .create-user-form select {
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    background-color: #f9fafb;
+    font-size: 1rem;
+    color: #334155;
+  }
+  
+  .create-user-form input:focus,
+  .create-user-form select:focus {
+    outline: none;
+    border-color: #60a5fa;
+    background-color: #ffffff;
+  }
+  
+  .create-user-form button {
+    padding: 12px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .create-user-form button:hover {
+    background-color: #2563eb;
+  }
+  
+  .error-message {
+    color: #dc2626;
+    font-size: 0.9rem;
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .success-message {
+    color: #16a34a;
+    font-size: 0.9rem;
+    margin-top: 15px;
+    text-align: center;
+  }
+  
