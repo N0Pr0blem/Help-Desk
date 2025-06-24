@@ -25,8 +25,8 @@ public class MailServiceImpl implements MailService {
     private int COUNT_OF_THREADS_FOR_MAIL_SERVICE;
 
     private final String EMAIL_FROM = "helpDesk@miniuser.ru";
-    private final String PATH_TO_ACTIVATION_FORM_TEMPLATE = "src/main/resources/static/html/verification-template.html";
-    private final String PATH_TO_INFORMATION_FORM_TEMPLATE = "src/main/resources/static/html/text-information-template.html";
+    private final String PATH_TO_ACTIVATION_FORM_TEMPLATE = "/opt/app/src/main/resources/static/html/verification-template.html";
+    private final String PATH_TO_INFORMATION_FORM_TEMPLATE = "/opt/app/src/main/resources/static/html/text-information-template.html";
 
     private final JavaMailSender mailSender;
     private ExecutorService emailExecutor;

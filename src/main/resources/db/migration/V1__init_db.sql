@@ -13,8 +13,8 @@ CREATE TABLE users (
 CREATE TABLE tasks (
     id SERIAL PRIMARY KEY,
     description TEXT NOT NULL,
-    from_user_id BIGINT UNSIGNED NOT NULL,
-    to_user_id BIGINT UNSIGNED,
+    from_user_id BIGINT NOT NULL,
+    to_user_id BIGINT,
     created_at TIMESTAMP NOT NULL,
     finished_at TIMESTAMP,
     status VARCHAR(50) NOT NULL,
