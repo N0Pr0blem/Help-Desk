@@ -17,8 +17,6 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-
-  
   .logo {
     color: #2563eb; /* насыщенный голубой */
     font-weight: bold;
@@ -48,3 +46,34 @@
   .main-content {
     padding-top: 70px; /* Примерно высота навбара + отступ */
   }
+
+  .logout-button {
+    /* Базовые стили */
+    margin: 0;
+    background: transparent;
+    border: none;
+    color: #ffffff; 
+    font: inherit;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    
+    /* Flex-центрирование */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Плавные переходы */
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  
+  .logout-button:hover {
+    background-color: #ff3b30 !important; /* Ярко-красный фон */
+    color: #4b5563 !important; 
+  }
+  
+  .logout-button:active {
+    background-color: #d32f2f !important; 
+  }
+  
