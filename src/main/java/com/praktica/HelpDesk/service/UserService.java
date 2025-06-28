@@ -28,4 +28,6 @@ public interface UserService {
     UserEntity getProfile(Principal principal);
 
     UserEntity changeActive(boolean isActive, Long userId,Principal principal);
+
+    List<UserEntity> getAllByRole(String role);
 }
