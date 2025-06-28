@@ -32,4 +32,6 @@ public interface TaskService {
     Task finishTask(Long taskId,Principal principal);
 
     List<Task> getSysadminsTasks(TaskStatus taskStatus, Principal principal);
+
+    void setTaskToSysadmin(Long taskId, Long userId);
 }
