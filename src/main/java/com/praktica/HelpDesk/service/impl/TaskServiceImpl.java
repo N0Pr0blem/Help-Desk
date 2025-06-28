@@ -139,6 +139,13 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.save(task);
     }
 
+    @Override
+    public List<Task> getSysadminsTasks(TaskStatus taskStatus, Principal principal) {
+        UserEntity userEntity = userService.getByEmail(principal.getName());
+
+        return taskRepository.findTasksBySysadminsIdAndStatus(userEntity.getId(),taskStatus.name());
+    }
+
     private void notificationAllSysadmins(){
         userService.getAll().stream()
                 .filter(user -> user.getRole().equals(Role.SYSADMIN))
