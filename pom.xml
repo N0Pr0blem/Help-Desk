@@ -11,7 +11,7 @@
 	<groupId>com.praktica</groupId>
 	<artifactId>HelpDesk</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>HelpDesk</name>
+	<name>HelpDesk-backend</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
