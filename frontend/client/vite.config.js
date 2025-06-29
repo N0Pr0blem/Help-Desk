@@ -1,19 +1,24 @@
-// vite.config.js
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// Обновите vite.config.js
 export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api/v1': {  
-        target: 'http://localhost:8080',
-        changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/api\/v1/, '')  // Удаляем префикс
-      }
+      '/api/v1': {
+          target: 'http://localhost:8080',  // Для локальной разработки
+          changeOrigin: true,
+          secure: false,
+          rewrite: (path) => path.replace(/^\/api\/v1/, '')
+        }
+    }
+  },
+  // Добавляем настройки для production-сборки
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    rollupOptions: {
+      external: [],  // Убедитесь, что axios не указан здесь
     }
   }
-})
-
+});

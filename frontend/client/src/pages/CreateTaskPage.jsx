@@ -9,7 +9,7 @@ const CreateTaskPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8080/api/v1/tasks",
+      const response = await axios.post("api/v1/tasks",
         { description: text },
         {
           headers: {

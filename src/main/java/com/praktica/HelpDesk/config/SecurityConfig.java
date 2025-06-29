@@ -26,7 +26,8 @@ public class SecurityConfig {
             "/api/v1/swagger-ui/*",
             "/api/v1/swagger-ui.html",
             "/webjars/swagger-ui/**",
-            "/v3/api-docs/**"
+            "/v3/api-docs/**",
+            "OPTIONS /**"
     };
 
     @Bean
@@ -34,10 +35,15 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(List.of("http://localhost:5173"));
+                    config.setAllowedOrigins(List.of(
+                            "http://localhost:5173",
+                            "http://frontend:80"
+                    ));
                     config.setAllowedMethods(List.of("*"));
                     config.setAllowedHeaders(List.of("*"));
                     config.setAllowCredentials(true);
+                    config.setExposedHeaders(List.of("Authorization"));
+                    config.setMaxAge(3600L);
                     return config;
                 }))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
