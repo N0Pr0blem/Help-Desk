@@ -6,6 +6,7 @@ import com.praktica.HelpDesk.entity.UserEntity;
 import com.praktica.HelpDesk.exception.AuthException;
 import com.praktica.HelpDesk.exception.UserException;
 import com.praktica.HelpDesk.repository.UserRepository;
+import com.praktica.HelpDesk.secutiry.Encoder;
 import com.praktica.HelpDesk.service.MailService;
 import com.praktica.HelpDesk.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final Encoder encoder;
 
     @Override
     public List<UserEntity> getAll() {
@@ -54,7 +56,10 @@ public class UserServiceImpl implements UserService {
         if (userUpdateDto.getFirstName() != null) user.setFirstName(userUpdateDto.getFirstName());
         if (userUpdateDto.getSecondName() != null) user.setSecondName(userUpdateDto.getSecondName());
         if (userUpdateDto.getLastName() != null) user.setLastName(userUpdateDto.getLastName());
-        if (userUpdateDto.getPassword() != null) user.setPassword(userUpdateDto.getPassword());
+        if (userUpdateDto.getPassword() != null) {
+            String newPassword = encoder.encode(userUpdateDto.getPassword());
+            user.setPassword(newPassword);
+        };
 
         return userRepository.save(user);
     }
