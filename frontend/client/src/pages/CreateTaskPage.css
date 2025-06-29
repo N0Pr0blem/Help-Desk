@@ -8,6 +8,7 @@
     background-color: #ffffff;
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0, 80, 255, 0.08);
+    margin-bottom: 40px;
   }
   
   .create-task-container h2 {

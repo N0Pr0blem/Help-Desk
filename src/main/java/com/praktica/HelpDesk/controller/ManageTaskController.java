@@ -2,6 +2,7 @@ package com.praktica.HelpDesk.controller;
 
 import com.praktica.HelpDesk.dto.filter.TaskFilter;
 import com.praktica.HelpDesk.dto.task.TaskResponseDto;
+import com.praktica.HelpDesk.entity.Task;
 import com.praktica.HelpDesk.entity.TaskStatus;
 import com.praktica.HelpDesk.mapper.TaskMapper;
 import com.praktica.HelpDesk.service.TaskService;
@@ -34,37 +35,43 @@ public class ManageTaskController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id,desc") String[] sort
-            ) {
+    ) {
 
-        TaskFilter taskFilter = new TaskFilter(createdAt,finishedAt,status);
-        Pageable pageable = PageRequest.of(page,size, parseSort(sort));
+        TaskFilter taskFilter = new TaskFilter(createdAt, finishedAt, status);
+        Pageable pageable = PageRequest.of(page, size, parseSort(sort));
         List<TaskResponseDto> tasks = taskMapper.toDtos(taskService.getAll(taskFilter, pageable));
 
         return ResponseEntity.ok(tasks);
     }
 
     @GetMapping("/{taskId}")
-    public ResponseEntity<TaskResponseDto> getById(@PathVariable("taskId") Long taskId){
+    public ResponseEntity<TaskResponseDto> getById(@PathVariable("taskId") Long taskId) {
         return ResponseEntity.ok(taskMapper.toDto(taskService.getById(taskId)));
     }
 
     @GetMapping("/my")
-    public ResponseEntity<List<TaskResponseDto>> getSysadminTasks(Principal principal){
-        return ResponseEntity.ok(taskMapper.toDtos(taskService.getSysadminsTasks(principal)));
+    public ResponseEntity<List<TaskResponseDto>> getSysadminTasks(@RequestParam(name = "status", required = false) String taskStatus, Principal principal) {
+        List<Task> tasks;
+        if(taskStatus!=null && !taskStatus.isEmpty()) {
+            tasks = taskService.getSysadminsTasks(TaskStatus.fromString(taskStatus), principal);
+        } else {
+            tasks = taskService.getSysadminsTasks(principal);
+        }
+        return ResponseEntity.ok(taskMapper.toDtos(tasks));
     }
 
     @PostMapping("/take/{taskId}")
-    public ResponseEntity<TaskResponseDto> takeTask(@PathVariable("taskId")Long taskId, Principal principal){
+    public ResponseEntity<TaskResponseDto> takeTask(@PathVariable("taskId") Long taskId, Principal principal) {
         return ResponseEntity.ok(taskMapper.toDto(taskService.takeTask(taskId, principal)));
     }
 
     @PostMapping("/finish/{taskId}")
-    public ResponseEntity<TaskResponseDto> finishTask(@PathVariable("taskId")Long taskId, Principal principal){
+    public ResponseEntity<TaskResponseDto> finishTask(@PathVariable("taskId") Long taskId, Principal principal) {
         return ResponseEntity.ok(taskMapper.toDto(taskService.finishTask(taskId, principal)));
     }
 
     @DeleteMapping("/{taskId}")
-    public ResponseEntity<String> delete(@PathVariable("taskId") Long taskId){
+    public ResponseEntity<String> delete(@PathVariable("taskId") Long taskId) {
         taskService.deleteById(taskId);
 
         return ResponseEntity.ok("Task successfully delete");

@@ -139,6 +139,27 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.save(task);
     }
 
+    @Override
+    public List<Task> getSysadminsTasks(TaskStatus taskStatus, Principal principal) {
+        UserEntity userEntity = userService.getByEmail(principal.getName());
+
+        return taskRepository.findTasksBySysadminsIdAndStatus(userEntity.getId(),taskStatus.name());
+    }
+
+    @Override
+    public void setTaskToSysadmin(Long taskId, Long userId) {
+        Task task = getById(taskId);
+        UserEntity userEntity = userService.getById(userId);
+        if(!userEntity.getRole().equals(Role.SYSADMIN)) throw new TaskException("You can set task only to sysadmin","TASK_TAKE_EXCEPTION");
+        if (task.getToUser()==null) {
+            task.setToUser(userEntity);
+            task.setStatus(TaskStatus.IN_PROGRESS);
+            mailService.sendInformationForm(task.getFromUser().getEmail(),"Статус задачи сменился на 'В процессе выполнения'");
+            mailService.sendInformationForm(task.getToUser().getEmail(),"Вам назначили задачу");
+        }
+        else throw new TaskException("This task is already in progress","TASK_TAKE_EXCEPTION");
+    }
+
     private void notificationAllSysadmins(){
         userService.getAll().stream()
                 .filter(user -> user.getRole().equals(Role.SYSADMIN))

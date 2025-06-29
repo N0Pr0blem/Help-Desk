@@ -30,10 +30,12 @@ public class UserController {
     public ResponseEntity<List<UserResponseDto>> getAll(
             @RequestParam(name = "page", required = false) Integer page,
             @RequestParam(name = "size", required = false) Integer size,
-            @RequestParam(name = "email", required = false) String email
+            @RequestParam(name = "email", required = false) String email,
+            @RequestParam(name="role", required = false) String role
     ) {
         List<UserEntity> res;
         if (email != null) res = List.of(userService.getByEmail(email));
+        else if(role!=null) res = userService.getAllByRole(role);
         else if (page != null && size != null) res = userService.getAll(page, size);
         else res = userService.getAll();
 

@@ -32,9 +32,7 @@ public class AuthServiceImpl implements AuthService {
     public UserEntity registerUser(RegisterRequestDto registerRequestDto) {
         String activationCode = ActivationCodeGenerator.generateCode();
 
-        mailService.sendActivationCodeForm(registerRequestDto.getEmail(), activationCode);
-
-        return userService.registerUser(UserEntity.builder()
+        UserEntity userEntity = userService.registerUser(UserEntity.builder()
                 .email(registerRequestDto.getEmail())
                 .role(Role.USER)
                 .password(passwordEncoder.encode(registerRequestDto.getPassword()))
@@ -44,6 +42,10 @@ public class AuthServiceImpl implements AuthService {
                 .lastName(registerRequestDto.getLastName())
                 .isActive(false)
                 .build());
+
+        mailService.sendActivationCodeForm(registerRequestDto.getEmail(), activationCode);
+
+        return userEntity;
     }
 
     @Override

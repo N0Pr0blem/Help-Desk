@@ -1,0 +1,82 @@
+.sysadmin-wrapper {
+    padding: 40px 20px;
+    background-color: #f1f5f9;
+    min-height: 100vh;
+  }
+  
+  .sysadmin-wrapper h2 {
+    text-align: center;
+    color: #1d4ed8;
+    margin-bottom: 30px;
+    margin-top: 80px;
+  }
+  
+  .task-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+  }
+  
+  .task-column {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 80, 255, 0.08);
+    width: 100%;
+    max-width: 450px;
+  }
+  
+  .task-column h3 {
+    color: #1e3a8a;
+    margin-bottom: 20px;
+  }
+  
+  .task-card {
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #f9fafb;
+  }
+  
+  .task-card p {
+    margin: 6px 0;
+    color: #374151;
+  }
+  
+  .task-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .task-actions button {
+    padding: 8px 16px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .task-actions button:hover {
+    background-color: #2563eb;
+  }
+  
+  .task-actions .delete-btn {
+    background-color: #ef4444;
+  }
+  
+  .task-actions .delete-btn:hover {
+    background-color: #b91c1c;
+  }
+  
+  .error-message {
+    color: #dc2626;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 20px;
+  }
+  
