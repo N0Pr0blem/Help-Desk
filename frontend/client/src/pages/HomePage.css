@@ -1,10 +1,8 @@
 .home-wrapper {
-    min-height: 100vh;
-    background-color: #f1f5f9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
+  background-color: #f1f5f9;
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px 60px;
   }
   
   .home-content {

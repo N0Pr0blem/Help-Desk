@@ -23,25 +23,28 @@ function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
-
+  
     setLoading(true);
     try {
       const response = await axios.post("/auth/login", { email, password });
-      const token = response.data.token;
-      if (!token) throw new Error("Токен не получен от сервера");
-
+      const { token, role } = response.data;
+  
+      if (!token || !role) throw new Error("Данные авторизации не получены");
+  
       localStorage.setItem("token", token);
+      localStorage.setItem("role", role); 
+  
       alert("Авторизация прошла успешно!");
       navigate("/profile");
     } catch (error) {
       console.error("Full error:", error);
-  console.error("Response data:", error.response?.data);
-  alert("Ошибка входа: " + (error.response?.data?.message || error.message));
+      console.error("Response data:", error.response?.data);
+      alert("Ошибка входа: " + (error.response?.data?.message || error.message));
     } finally {
       setLoading(false);
     }
   };
-
+  
   return (
     <div className="login-wrapper">
       <div className="login-content">

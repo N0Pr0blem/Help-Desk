@@ -4,7 +4,7 @@ import "./SysadminTasksPage.css";
 
 function SysadminTasksPage() {
   const [availableTasks, setAvailableTasks] = useState([]);
-  const [myTasks, setMyTasks] = useState([]);
+  const [inProgressTasks, setInProgressTasks] = useState([]);
   const [finishedTasks, setFinishedTasks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -12,13 +12,13 @@ function SysadminTasksPage() {
   const fetchTasks = async () => {
     setLoading(true);
     try {
-      const [availableRes, myRes, finishedRes] = await Promise.all([
+      const [waitRes, progressRes, finishedRes] = await Promise.all([
         axios.get("/admin/tasks?status=WAIT"),
         axios.get("/admin/tasks?status=IN_PROGRESS"),
-        axios.get("/admin/tasks?status=FINISHED"), 
+        axios.get("/admin/tasks?status=FINISHED"),
       ]);
-      setAvailableTasks(availableRes.data);
-      setMyTasks(myRes.data);
+      setAvailableTasks(waitRes.data);
+      setInProgressTasks(progressRes.data);
       setFinishedTasks(finishedRes.data);
     } catch (err) {
       console.error(err);
@@ -31,26 +31,6 @@ function SysadminTasksPage() {
   useEffect(() => {
     fetchTasks();
   }, []);
-
-  const handleTakeTask = async (id) => {
-    try {
-      await axios.post(`/admin/tasks/take/${id}`);
-      fetchTasks();
-    } catch (err) {
-      alert("Не удалось взять задачу");
-      console.error(err);
-    }
-  };
-
-  const handleFinishTask = async (id) => {
-    try {
-      await axios.post(`/admin/tasks/finish/${id}`);
-      fetchTasks();
-    } catch (err) {
-      alert("Не удалось завершить задачу");
-      console.error(err);
-    }
-  };
 
   const handleDeleteTask = async (id) => {
     if (!window.confirm("Удалить задачу?")) return;
@@ -72,13 +52,13 @@ function SysadminTasksPage() {
 
   return (
     <div className="sysadmin-wrapper">
-      <h2>Панель системного администратора</h2>
+      <h2>Все заявки (администратор)</h2>
       {loading && <p>Загрузка задач...</p>}
       {error && <p className="error-message">{error}</p>}
 
       <div className="task-columns">
         <div className="task-column">
-          <h3>Доступные заявки</h3>
+          <h3>Ожидают обработки</h3>
           {availableTasks.length === 0 ? (
             <p>Нет заявок</p>
           ) : (
@@ -86,8 +66,8 @@ function SysadminTasksPage() {
               <div key={task.id} className="task-card">
                 <p><strong>Заявка #{task.id}</strong></p>
                 <p>{task.description}</p>
+                <p>Создана: {formatDate(task.created_at)}</p>
                 <div className="task-actions">
-                  <button onClick={() => handleTakeTask(task.id)}>Взять</button>
                   <button onClick={() => handleDeleteTask(task.id)} className="delete-btn">Удалить</button>
                 </div>
               </div>
@@ -96,17 +76,17 @@ function SysadminTasksPage() {
         </div>
 
         <div className="task-column">
-          <h3>Мои заявки</h3>
-          {myTasks.length === 0 ? (
-            <p>Вы ещё не брали заявки</p>
+          <h3>В процессе</h3>
+          {inProgressTasks.length === 0 ? (
+            <p>Нет задач в работе</p>
           ) : (
-            myTasks.map((task) => (
+            inProgressTasks.map((task) => (
               <div key={task.id} className="task-card">
                 <p><strong>Заявка #{task.id}</strong></p>
                 <p>{task.description}</p>
-                <p>Взята: {formatDate(task.created_at)}</p>
+                <p>Взята: {formatDate(task.taken_at)}</p>
                 <div className="task-actions">
-                  <button onClick={() => handleFinishTask(task.id)}>Завершить</button>
+                  <button onClick={() => handleDeleteTask(task.id)} className="delete-btn">Удалить</button>
                 </div>
               </div>
             ))
@@ -114,9 +94,9 @@ function SysadminTasksPage() {
         </div>
 
         <div className="task-column">
-          <h3>Завершённые заявки</h3>
+          <h3>Завершённые</h3>
           {finishedTasks.length === 0 ? (
-            <p>Завершённых заявок нет</p>
+            <p>Нет завершённых заявок</p>
           ) : (
             finishedTasks.map((task) => (
               <div key={task.id} className="task-card">
