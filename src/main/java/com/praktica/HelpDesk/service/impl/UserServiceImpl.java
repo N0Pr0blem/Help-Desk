@@ -1,6 +1,7 @@
 package com.praktica.HelpDesk.service.impl;
 
 import com.praktica.HelpDesk.dto.user.UserUpdateDto;
+import com.praktica.HelpDesk.entity.Role;
 import com.praktica.HelpDesk.entity.UserEntity;
 import com.praktica.HelpDesk.exception.AuthException;
 import com.praktica.HelpDesk.exception.UserException;
@@ -107,5 +108,10 @@ public class UserServiceImpl implements UserService {
             return userRepository.save(user);
         }
         else throw new UserException("You can't change your activity","");
+    }
+
+    @Override
+    public List<UserEntity> getAllByRole(String role) {
+        return userRepository.findAllByRole(Role.fromString(role).name());
     }
 }

@@ -4,6 +4,7 @@ import com.praktica.HelpDesk.dto.filter.TaskFilter;
 import com.praktica.HelpDesk.dto.task.TaskRequestDto;
 import com.praktica.HelpDesk.dto.task.TaskResponseDto;
 import com.praktica.HelpDesk.entity.Task;
+import com.praktica.HelpDesk.entity.TaskStatus;
 import org.springframework.data.domain.Pageable;
 
 import java.security.Principal;
@@ -29,4 +30,8 @@ public interface TaskService {
     Task takeTask(Long taskId,Principal principal);
 
     Task finishTask(Long taskId,Principal principal);
+
+    List<Task> getSysadminsTasks(TaskStatus taskStatus, Principal principal);
+
+    void setTaskToSysadmin(Long taskId, Long userId);
 }
