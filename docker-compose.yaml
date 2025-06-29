@@ -47,6 +47,21 @@ services:
       postgres-user:
         condition: service_healthy
 
+  frontend:
+    build: ./frontend/client
+    expose:
+      - "80"
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+      - frontend
+
 volumes:
   postgres_user_data:
   pgadmin_data:
