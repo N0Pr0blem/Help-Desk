@@ -64,7 +64,7 @@ function SysadminTasksPage() {
           ) : (
             availableTasks.map((task) => (
               <div key={task.id} className="task-card">
-                <p><strong>Заявка #{task.id}</strong></p>
+                <p><strong>Заявка {task.id}</strong></p>
                 <p>{task.description}</p>
                 <p>Создана: {formatDate(task.created_at)}</p>
                 <div className="task-actions">
@@ -82,7 +82,7 @@ function SysadminTasksPage() {
           ) : (
             inProgressTasks.map((task) => (
               <div key={task.id} className="task-card">
-                <p><strong>Заявка #{task.id}</strong></p>
+                <p><strong>Заявка {task.id}</strong></p>
                 <p>{task.description}</p>
                 <p>Взята: {formatDate(task.taken_at)}</p>
                 <div className="task-actions">
@@ -100,7 +100,7 @@ function SysadminTasksPage() {
           ) : (
             finishedTasks.map((task) => (
               <div key={task.id} className="task-card">
-                <p><strong>Заявка #{task.id}</strong></p>
+                <p><strong>Заявка {task.id}</strong></p>
                 <p>{task.description}</p>
                 <p>Завершена: {formatDate(task.finished_at)}</p>
                 <div className="task-actions">

@@ -57,14 +57,21 @@ function AdminPanelPage() {
   const fetchAll = async (customPage) => {
     try {
       const res = await axios.get(`/users?page=${customPage}&size=${size}`);
-      setUsers(res.data);
-      setHasMore(res.data.length === size);
+      const fetchedUsers = res.data;
+  
+      if (fetchedUsers.length === 0 && customPage > 0) {
+        setPage((prev) => Math.max(prev - 1, 0));
+      } else {
+        setUsers(fetchedUsers);
+        setHasMore(fetchedUsers.length === size);
+      }
     } catch (err) {
       console.error(err);
       setUsers([]);
       setError("Ошибка при загрузке пользователей");
     }
   };
+  
 
   useEffect(() => {
     fetchUsers();
@@ -99,15 +106,13 @@ function AdminPanelPage() {
   const handleToggleActive = async (userId, currentActiveStatus) => {
     const newActiveStatus = !currentActiveStatus;
     const action = newActiveStatus ? 'активировать' : 'деактивировать';
-    
+
     if (!window.confirm(`Вы уверены, что хотите ${action} этого пользователя?`)) return;
 
     try {
       await axios.patch(`/users/active/${userId}?isActive=${newActiveStatus}`);
       alert(`Пользователь успешно ${action === 'активировать' ? 'активирован' : 'деактивирован'}`);
-      
-      // Обновляем состояние пользователя в списке
-      setUsers(users.map(user => 
+      setUsers(users.map(user =>
         user.id === userId ? { ...user, active: newActiveStatus } : user
       ));
     } catch (err) {
@@ -122,7 +127,7 @@ function AdminPanelPage() {
         <h2>Панель администратора</h2>
 
         <div className="admin-actions">
-          <button 
+          <button
             className="create-user-btn"
             onClick={() => (window.location.href = "/admin/create-user")}
           >
@@ -161,9 +166,9 @@ function AdminPanelPage() {
             <button type="submit" className="search-btn">
               Искать
             </button>
-            <button 
-              type="button" 
-              onClick={handleReset} 
+            <button
+              type="button"
+              onClick={handleReset}
               className="reset-btn"
             >
               Сбросить
@@ -200,24 +205,34 @@ function AdminPanelPage() {
                         {user.active ? "Да" : "Нет"}
                       </td>
                       <td className="action-buttons">
-                        <button
-                          className="action-btn edit-btn"
-                          onClick={() => (window.location.href = `/admin/edit-user/${user.id}`)}
-                        >
-                          Изменить
-                        </button>
-                        <button
-                          className={`action-btn toggle-btn ${user.active ? "deactivate" : "activate"}`}
-                          onClick={() => handleToggleActive(user.id, user.active)}
-                        >
-                          {user.active ? "Деактивировать" : "Активировать"}
-                        </button>
-                        <button
-                          className="action-btn delete-btn"
-                          onClick={() => handleDelete(user.id)}
-                        >
-                          Удалить
-                        </button>
+                        {user.role !== "ADMIN" ? (
+                          <>
+                            <button
+                              className="action-btn edit-btn"
+                              onClick={() =>
+                                (window.location.href = `/admin/edit-user/${user.id}`)
+                              }
+                            >
+                              Изменить
+                            </button>
+                            <button
+                              className={`action-btn toggle-btn ${
+                                user.active ? "deactivate" : "activate"
+                              }`}
+                              onClick={() => handleToggleActive(user.id, user.active)}
+                            >
+                              {user.active ? "Деактивировать" : "Активировать"}
+                            </button>
+                            <button
+                              className="action-btn delete-btn"
+                              onClick={() => handleDelete(user.id)}
+                            >
+                              Удалить
+                            </button>
+                          </>
+                        ) : (
+                          <span className="disabled-actions">—</span>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -227,17 +242,17 @@ function AdminPanelPage() {
 
             {!isSearchActive && (
               <div className="pagination">
-                <button 
+                <button
                   className="pagination-btn"
-                  onClick={() => setPage((p) => Math.max(p - 1, 0))} 
+                  onClick={() => setPage((p) => Math.max(p - 1, 0))}
                   disabled={page === 0}
                 >
                   Назад
                 </button>
                 <span className="page-number">Страница: {page + 1}</span>
-                <button 
+                <button
                   className="pagination-btn"
-                  onClick={() => hasMore && setPage((p) => p + 1)} 
+                  onClick={() => hasMore && setPage((p) => p + 1)}
                   disabled={!hasMore}
                 >
                   Вперед

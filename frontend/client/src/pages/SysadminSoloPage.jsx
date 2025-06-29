@@ -84,7 +84,7 @@ function SysadminSoloPage() {
           ) : (
             availableTasks.map((task) => (
               <div key={task.id} className="task-card">
-                <p><strong>Заявка #{task.id}</strong></p>
+                <p><strong>Заявка {task.id}</strong></p>
                 <p>{task.description}</p>
                 <div className="task-actions">
                   <button onClick={() => handleTakeTask(task.id)}>Взять</button>
@@ -102,7 +102,7 @@ function SysadminSoloPage() {
           ) : (
             myTasks.map((task) => (
               <div key={task.id} className="task-card">
-                <p><strong>Заявка #{task.id}</strong></p>
+                <p><strong>Заявка {task.id}</strong></p>
                 <p>{task.description}</p>
                 <p>Взята: {formatDate(task.created_at)}</p>
                 <div className="task-actions">
@@ -120,7 +120,7 @@ function SysadminSoloPage() {
           ) : (
             finishedTasks.map((task) => (
               <div key={task.id} className="task-card">
-                <p><strong>Заявка #{task.id}</strong></p>
+                <p><strong>Заявка {task.id}</strong></p>
                 <p>{task.description}</p>
                 <p>Завершена: {formatDate(task.finished_at)}</p>
                 <div className="task-actions">

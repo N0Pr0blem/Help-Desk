@@ -1,7 +1,7 @@
 .verification-container {
   display: flex;
   justify-content: center;
-  padding: 2rem;
+  padding: 100px 20px 200px;
 }
 
 .verification-form {
@@ -11,7 +11,15 @@
   flex-direction: column;
 }
 
+.verification-form h2 {
+  color: #1d4ed8;
+  text-align: center;
+  width: 100%;
+}
+
 .verification-form label {
+  color: #4b5563;
+  text-align: center;
   margin-top: 1rem;
   font-weight: 500;
 }
@@ -78,3 +86,4 @@ button:hover {
   color: green;
   margin-top: 1rem;
 }
+

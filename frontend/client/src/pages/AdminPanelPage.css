@@ -1,10 +1,8 @@
 .admin-wrapper {
-    min-height: 100vh;
-    background-color: #f1f5f9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0px 20px;
+  background-color: #f1f5f9;
+  display: flex;
+  justify-content: center;
+  padding: 50px 20px 50px;
   }
   
   .admin-content {
@@ -18,8 +16,6 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    margin-bottom: 40px;
-    margin-top: 120px;
   }
   
   .admin-content h2 {
@@ -182,7 +178,6 @@
     background-color: #d97706 !important;
   }
   
-  
   .pagination {
     display: flex;
     justify-content: center;
@@ -226,7 +221,13 @@
     font-weight: 600;
     margin: 20px 0;
   }
-  
+
+  .disabled-actions {
+    color: #9ca3af;
+    font-style: italic;
+    text-align: center;
+  }
+    
   @media (max-width: 768px) {
     .admin-content {
       padding: 30px 25px;

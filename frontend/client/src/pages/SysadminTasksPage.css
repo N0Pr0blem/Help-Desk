@@ -1,6 +1,6 @@
 .sysadmin-wrapper {
-  padding: 40px 20px;
-  background-color: #f8fafc;
+  padding: 20px 60px;
+  background-color: #f1f5f9;
   min-height: 100vh;
 }
 
@@ -8,8 +8,12 @@
   text-align: center;
   color: #1d4ed8;
   margin-bottom: 40px;
-  margin-top: 60px;
   font-size: 32px;
+}
+
+.task-column p {
+  color: #1e3a8a;
+  font-weight: bold;
 }
 
 .task-columns {
@@ -17,6 +21,7 @@
   flex-wrap: wrap;
   gap: 30px;
   justify-content: center;
+  margin-bottom: 50px;
 }
 
 .task-column {

@@ -5,22 +5,22 @@ function Footer() {
     <footer className="footer">
       <div className="footer-section">
         <h4>Контакты</h4>
-        <p>Телефон: +7 (495) 123-45-67</p>
-        <p>Телефон: +7 (800) 555-35-35</p>
-        <p>Email: support@helpdesk.com</p>
+        <p>Телефон: +375 (29) 343-09-44</p>
+        <p>Телефон: +375 (17) 378-52-11</p>
+        <p>Email: rup@ivcstat.by</p>
       </div>
 
       <div className="footer-section">
         <h4>Ссылки</h4>
+        <a href="/">Главная страница</a>
         <a href="/profile">Личный кабинет</a>
-        <a href="/create-task">Создать заявку</a>
-        <a href="/admin">Панель админа</a>
+        <a href="/register">Зарегистрироваться</a>
       </div>
 
       <div className="footer-section">
         <h4>Адрес</h4>
-        <p>г. Москва, ул. Примерная, д. 1</p>
-        <p>Россия, 123456</p>
+        <p>г. Минск, пр. Партизанский, 12А, ком. 8А</p>
+        <p>Беларусь, 220070</p>
       </div>
     </footer>
   );
