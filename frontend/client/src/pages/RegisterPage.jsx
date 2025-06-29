@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../axiosConfig";
 import "./RegisterPage.css";
-import Image from "/projectX.jpg"; 
+import Image from "/regisphoto.jpg";
+import Toast from "../components/Toast.jsx";
 
 function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -14,9 +15,9 @@ function RegisterPage() {
     confirmPassword: "",
   });
 
-  const navigate = useNavigate();
+  const [toastMessage, setToastMessage] = useState("");
   const [errors, setErrors] = useState({});
-  const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -24,6 +25,14 @@ function RegisterPage() {
       [e.target.name]: e.target.value,
     }));
   };
+
+  const [toastKey, setToastKey] = useState(0);
+
+  const showToast = (msg) => {
+    setToastMessage(msg);
+    setToastKey(k => k + 1);
+  };
+
 
   const validate = () => {
     const newErrors = {};
@@ -38,6 +47,12 @@ function RegisterPage() {
       newErrors.confirmPassword = "Пароли не совпадают";
 
     setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      const firstError = Object.values(newErrors)[0];
+      showToast(firstError);
+    }
+
     return Object.keys(newErrors).length === 0;
   };
 
@@ -46,7 +61,7 @@ function RegisterPage() {
     if (!validate()) return;
 
     try {
-      const response = await axios.post("/auth/register", {
+      await axios.post("/auth/register", {
         first_name: formData.first_name,
         second_name: formData.second_name,
         last_name: formData.last_name,
@@ -69,15 +84,14 @@ function RegisterPage() {
         } else {
           message = JSON.stringify(error.response.data);
         }
-      } else if (error.message) {
-        message = error.message;
       }
-      alert("Ошибка регистрации: " + message);
+      showToast("Ошибка регистрации: " + message);
     }
   };
 
   return (
     <div className="register-wrapper">
+      <Toast  key={toastKey} message={toastMessage} onClose={() => setToastMessage("")} />
       <div className="register-content">
         <div className="register-left">
           <form className="register-form" onSubmit={handleSubmit}>
@@ -85,23 +99,18 @@ function RegisterPage() {
 
             <label>Имя</label>
             <input type="text" name="first_name" value={formData.first_name} onChange={handleChange} />
-            {errors.first_name && <p className="error">{errors.first_name}</p>}
 
             <label>Фамилия</label>
             <input type="text" name="second_name" value={formData.second_name} onChange={handleChange} />
-            {errors.second_name && <p className="error">{errors.second_name}</p>}
 
             <label>Отчество</label>
             <input type="text" name="last_name" value={formData.last_name} onChange={handleChange} />
-            {errors.last_name && <p className="error">{errors.last_name}</p>}
 
             <label>Email</label>
             <input type="email" name="email" value={formData.email} onChange={handleChange} />
-            {errors.email && <p className="error">{errors.email}</p>}
 
             <label>Пароль</label>
             <input type="password" name="password" value={formData.password} onChange={handleChange} />
-            {errors.password && <p className="error">{errors.password}</p>}
 
             <label>Повторите пароль</label>
             <input
@@ -110,10 +119,8 @@ function RegisterPage() {
               value={formData.confirmPassword}
               onChange={handleChange}
             />
-            {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
 
             <button type="submit">Зарегистрироваться</button>
-            {successMessage && <p className="success">{successMessage}</p>}
           </form>
         </div>
         <div className="register-image">

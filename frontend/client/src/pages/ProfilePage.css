@@ -2,14 +2,13 @@
     margin-left: auto;
     margin-right: auto;
     max-width: 800px;
-    margin-top: 110px;
-    margin-bottom: 40px;
+    margin-top: 50px;
+    margin-bottom: 50px;
     padding: 20px 70px;
     background-color: #ffffff;
-    border-radius: 12px;
+    border-radius: 14px;
     box-shadow: 0 6px 20px rgba(0, 80, 255, 0.08);
   }
-
 
   .profile-container h2 {
     color: #1d4ed8;
@@ -74,18 +73,18 @@ h3 {
   }
   
   .status.wait {
-    background-color: #fef3c7;  /* светло-жёлтый */
-    color: #92400e;             /* тёмно-оранжевый */
+    background-color: #fef3c7;  
+    color: #92400e;             
   }
   
   .status.in_progress {
-    background-color: #e0f2fe;  /* светло-голубой */
-    color: #1e40af;             /* синий */
+    background-color: #e0f2fe; 
+    color: #1e40af;            
   }
   
   .status.finished {
-    background-color: #d1fae5;  /* светло-зелёный */
-    color: #065f46;             /* тёмно-зелёный */
+    background-color: #d1fae5;  
+    color: #065f46;            
   }
   
   .task-item {

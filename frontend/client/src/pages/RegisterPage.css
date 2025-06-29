@@ -1,29 +1,27 @@
 .register-wrapper {
-  min-height: 100vh;
   background-color: #f1f5f9;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 0px 0px;
+  padding: 50px 20px 50px;
 }
 
 .register-content {
-  margin-top: 120px;
-  margin-bottom: 80px;
   display: flex;
   flex-direction: row;
   background-color: white;
   box-shadow: 0 8px 24px rgba(0, 80, 255, 0.08);
   border-radius: 16px;
-  max-width: 960px;
-  height: 640px;
+  max-width: 1010px;
+  height: 580px;
   width: 100%;
   overflow: hidden;
 }
 
+
 .register-left {
   flex: 1;
   padding: 30px;
+  margin-right: 20px;
 }
 
 .register-form {
@@ -49,7 +47,7 @@
 .register-form input {
   font-size: 0.9rem;
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   margin-bottom: 8px;
   border: 1px solid #cbd5e1;
   border-radius: 5px;
@@ -74,7 +72,7 @@
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 .register-form button:hover {
