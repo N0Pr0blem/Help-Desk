@@ -14,7 +14,7 @@ function SysadminSoloPage() {
     try {
       const [availableRes, myRes, finishedRes] = await Promise.all([
         axios.get("/admin/tasks?status=WAIT"),
-        axios.get("/admin/tasks/my&status=IN_PROGRESS"),
+        axios.get("/admin/tasks/my?status=IN_PROGRESS"),
         axios.get("/admin/tasks/my?status=FINISHED"), 
       ]);
       setAvailableTasks(availableRes.data);
