@@ -17,10 +17,8 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-
-  
   .logo {
-    color: #2563eb; /* насыщенный голубой */
+    color: #2563eb; 
     font-weight: bold;
     font-size: 1.5rem;
     margin: 0;
@@ -28,23 +26,54 @@
 
   .nav-links {
     display: flex;
-    gap: 1rem; /* Современный способ добавить отступы между ссылками */
+    gap: 1rem; 
   }
   
   .nav-links a {
     text-decoration: none;
-    color: #4b5563; /* серый */
+    color: #4b5563;
     font-weight: 500;
     transition: color 0.3s;
-    padding: 0.5rem 1rem; /* Добавляем отступы для лучшего клика */
-    border-radius: 0.25rem; /* Скругляем углы */
+    padding: 0.5rem 1rem; 
+    border-radius: 0.25rem;
   }
   
   .nav-links a:hover {
     color: #2563eb;
-    background-color: rgba(37, 99, 235, 0.1); /* Легкий голубой фон при наведении */
+    background-color: rgba(37, 99, 235, 0.1); 
   }
   
   .main-content {
-    padding-top: 70px; /* Примерно высота навбара + отступ */
+    padding-top: 70px; 
   }
+
+  .logout-button {
+    
+    margin: 0;
+    background: transparent;
+    border: none;
+    color: #ffffff; 
+    font: inherit;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    
+  
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  
+  .logout-button:hover {
+    background-color: #ff3b30 !important; 
+    color: #4b5563 !important; 
+  }
+  
+  .logout-button:active {
+    background-color: #d32f2f !important; 
+  }
+  

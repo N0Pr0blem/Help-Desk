@@ -1,0 +1,89 @@
+package com.praktica.HelpDesk.controller;
+
+import com.praktica.HelpDesk.dto.filter.TaskFilter;
+import com.praktica.HelpDesk.dto.task.TaskResponseDto;
+import com.praktica.HelpDesk.entity.Task;
+import com.praktica.HelpDesk.entity.TaskStatus;
+import com.praktica.HelpDesk.mapper.TaskMapper;
+import com.praktica.HelpDesk.service.TaskService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/admin/tasks")
+@PreAuthorize("hasAnyAuthority('ADMIN','SYSADMIN')")
+public class ManageTaskController {
+
+    private final TaskService taskService;
+    private final TaskMapper taskMapper;
+
+    @GetMapping()
+    public ResponseEntity<List<TaskResponseDto>> getAllTasks(
+            @RequestParam(required = false) LocalDateTime createdAt,
+            @RequestParam(required = false) LocalDateTime finishedAt,
+            @RequestParam(required = false) TaskStatus status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id,desc") String[] sort
+    ) {
+
+        TaskFilter taskFilter = new TaskFilter(createdAt, finishedAt, status);
+        Pageable pageable = PageRequest.of(page, size, parseSort(sort));
+        List<TaskResponseDto> tasks = taskMapper.toDtos(taskService.getAll(taskFilter, pageable));
+
+        return ResponseEntity.ok(tasks);
+    }
+
+    @GetMapping("/{taskId}")
+    public ResponseEntity<TaskResponseDto> getById(@PathVariable("taskId") Long taskId) {
+        return ResponseEntity.ok(taskMapper.toDto(taskService.getById(taskId)));
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<List<TaskResponseDto>> getSysadminTasks(@RequestParam(name = "status", required = false) String taskStatus, Principal principal) {
+        List<Task> tasks;
+        if(taskStatus!=null && !taskStatus.isEmpty()) {
+            tasks = taskService.getSysadminsTasks(TaskStatus.fromString(taskStatus), principal);
+        } else {
+            tasks = taskService.getSysadminsTasks(principal);
+        }
+        return ResponseEntity.ok(taskMapper.toDtos(tasks));
+    }
+
+    @PostMapping("/take/{taskId}")
+    public ResponseEntity<TaskResponseDto> takeTask(@PathVariable("taskId") Long taskId, Principal principal) {
+        return ResponseEntity.ok(taskMapper.toDto(taskService.takeTask(taskId, principal)));
+    }
+
+    @PostMapping("/finish/{taskId}")
+    public ResponseEntity<TaskResponseDto> finishTask(@PathVariable("taskId") Long taskId, Principal principal) {
+        return ResponseEntity.ok(taskMapper.toDto(taskService.finishTask(taskId, principal)));
+    }
+
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<String> delete(@PathVariable("taskId") Long taskId) {
+        taskService.deleteById(taskId);
+
+        return ResponseEntity.ok("Task successfully delete");
+    }
+
+    private Sort parseSort(String[] sort) {
+        if (sort.length >= 2) {
+            String property = sort[0];
+            String direction = sort[1];
+
+            return Sort.by(Sort.Direction.fromString(direction), property);
+        }
+        return Sort.unsorted();
+    }
+}
