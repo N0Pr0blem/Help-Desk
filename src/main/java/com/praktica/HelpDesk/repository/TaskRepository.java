@@ -14,19 +14,19 @@ import java.util.List;
 public interface TaskRepository extends JpaRepository<Task, Long>, JpaSpecificationExecutor<Task> {
     @Query(value = """
             SELECT * FROM tasks
-            WHERE from_user_id=:userId;
+            WHERE from_user_id=:userId
             """, nativeQuery = true)
     List<Task> findTasksByUserId(@Param("userId") Long userId);
 
     @Query(value = """
             SELECT * FROM tasks
-            WHERE to_user_id=:userId;
+            WHERE to_user_id=:userId
             """, nativeQuery = true)
     List<Task> findTasksBySysadminsId(@Param("userId") Long userId);
 
     @Query(value = """
             SELECT * FROM tasks
-            WHERE to_user_id=:userId AND status=:taskStatus;
+            WHERE to_user_id=:userId AND status=:taskStatus
             """, nativeQuery = true)
     List<Task> findTasksBySysadminsIdAndStatus(Long userId, String taskStatus);
 }

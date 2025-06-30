@@ -6,14 +6,17 @@ import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -25,8 +28,8 @@ public class MailServiceImpl implements MailService {
     private int COUNT_OF_THREADS_FOR_MAIL_SERVICE;
 
     private final String EMAIL_FROM = "helpDesk@miniuser.ru";
-    private final String PATH_TO_ACTIVATION_FORM_TEMPLATE = "src/main/resources/static/html/verification-template.html";
-    private final String PATH_TO_INFORMATION_FORM_TEMPLATE = "src/main/resources/static/html/text-information-template.html";
+    private final String PATH_TO_ACTIVATION_FORM_TEMPLATE = "static/html/verification-template.html";
+    private final String PATH_TO_INFORMATION_FORM_TEMPLATE = "static/html/text-information-template.html";
 
     private final JavaMailSender mailSender;
     private ExecutorService emailExecutor;
@@ -53,8 +56,7 @@ public class MailServiceImpl implements MailService {
     public void sendActivationCodeForm(String to, String code) {
         emailExecutor.submit(() -> {
             try {
-                String template = new String(Files.readAllBytes(Paths.get(PATH_TO_ACTIVATION_FORM_TEMPLATE)));
-
+                String template = loadTemplate(PATH_TO_ACTIVATION_FORM_TEMPLATE);
                 String filledTemplate = fillCodeInTemplate(template, code);
 
                 MimeMessage message = mailSender.createMimeMessage();
@@ -76,7 +78,7 @@ public class MailServiceImpl implements MailService {
     public void sendInformationForm(String to, String text) {
         emailExecutor.submit(() -> {
             try {
-                String template = new String(Files.readAllBytes(Paths.get(PATH_TO_INFORMATION_FORM_TEMPLATE)));
+                String template = loadTemplate(PATH_TO_INFORMATION_FORM_TEMPLATE);
                 template = template.replace("${text}", text);
 
                 MimeMessage message = mailSender.createMimeMessage();
@@ -101,6 +103,13 @@ public class MailServiceImpl implements MailService {
             template = template.replace("${code[" + i + "]}", String.valueOf(codeArray[i]));
         }
         return template;
+    }
+
+    private String loadTemplate(String relativePath) throws IOException {
+        ClassPathResource resource = new ClassPathResource(relativePath);
+        try (InputStream inputStream = resource.getInputStream()) {
+            return StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+        }
     }
 
     @PreDestroy

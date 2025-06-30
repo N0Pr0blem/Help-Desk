@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "../axiosConfig";
 import "./AdminPanelPage.css";
+import { useNavigate } from 'react-router-dom';
 
 function AdminPanelPage() {
   const [users, setUsers] = useState([]);
@@ -121,6 +122,10 @@ function AdminPanelPage() {
     }
   };
 
+  const navigate = useNavigate();
+   const handleEdit = (userId) => {
+      navigate(`/admin/edit-user/${userId}`);
+    };
   return (
     <div className="admin-wrapper">
       <div className="admin-content">
@@ -129,7 +134,7 @@ function AdminPanelPage() {
         <div className="admin-actions">
           <button
             className="create-user-btn"
-            onClick={() => (window.location.href = "/admin/create-user")}
+            onClick={() => navigate("/admin/create-user")}
           >
             Создать пользователя
           </button>
@@ -209,9 +214,7 @@ function AdminPanelPage() {
                           <>
                             <button
                               className="action-btn edit-btn"
-                              onClick={() =>
-                                (window.location.href = `/admin/edit-user/${user.id}`)
-                              }
+                              onClick={() => handleEdit(user.id)}
                             >
                               Изменить
                             </button>

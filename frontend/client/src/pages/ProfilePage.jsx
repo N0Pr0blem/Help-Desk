@@ -18,10 +18,10 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const profileRes = await axios.get("/profile");
+        const profileRes = await axios.get("profile");
         setUser(profileRes.data);
 
-        const tasksRes = await axios.get("/tasks");
+        const tasksRes = await axios.get("tasks");
         setTasks(tasksRes.data);
 
         setLoading(false);
