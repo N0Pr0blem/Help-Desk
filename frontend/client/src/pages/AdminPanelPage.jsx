@@ -184,7 +184,8 @@ function AdminPanelPage() {
 
         {users.length > 0 && (
           <>
-            <div className="table-container">
+            {/* Таблица для десктопа */}
+            <div className="table-container desktop-only">
               <table className="admin-table">
                 <thead>
                   <tr>
@@ -238,6 +239,56 @@ function AdminPanelPage() {
                   ))}
                 </tbody>
               </table>
+            </div>
+
+            {/* Карточки для мобильных */}
+            <div className="user-cards mobile-only">
+              {users.map((user) => (
+                <div key={user.id ?? user.email} className="user-card">
+                  <div className="user-card-header">
+                    <span className="user-card-id">#{user.id}</span>
+                    <span className={`user-card-status ${user.active ? "active" : "inactive"}`}>
+                      {user.active ? "Активен" : "Неактивен"}
+                    </span>
+                  </div>
+                  <div className="user-card-body">
+                    <div className="user-card-row">
+                      <span className="user-card-label">Email:</span>
+                      <span className="user-card-value">{user.email}</span>
+                    </div>
+                    <div className="user-card-row">
+                      <span className="user-card-label">Роль:</span>
+                      <span className="user-card-value">{user.role}</span>
+                    </div>
+                  </div>
+                  {user.role !== "ADMIN" ? (
+                    <div className="user-card-actions">
+                      <button
+                        className="action-btn edit-btn"
+                        onClick={() => (window.location.href = `/admin/edit-user/${user.id}`)}
+                      >
+                        Изменить
+                      </button>
+                      <button
+                        className={`action-btn toggle-btn ${user.active ? "deactivate" : "activate"}`}
+                        onClick={() => handleToggleActive(user.id, user.active)}
+                      >
+                        {user.active ? "Деактивировать" : "Активировать"}
+                      </button>
+                      <button
+                        className="action-btn delete-btn"
+                        onClick={() => handleDelete(user.id)}
+                      >
+                        Удалить
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="user-card-actions">
+                      <span className="disabled-actions">Администратор</span>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
 
             {!isSearchActive && (
