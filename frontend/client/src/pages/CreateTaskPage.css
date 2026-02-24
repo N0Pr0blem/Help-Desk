@@ -1,68 +1,181 @@
 .create-task-container {
-  margin: 60px auto;
+  margin: 50px auto;
   width: 90%;
-  max-width: 800px;
-  padding: 50px;
+  max-width: 750px;
+  padding: 44px 50px;
   background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 80, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 4px 30px rgba(0, 80, 255, 0.06);
 }
-  
+
+.create-task-container h2 {
+  color: #1e40af;
+  margin-bottom: 28px;
+  margin-top: 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.create-task-container label {
+  display: block;
+  margin: 20px 0 10px;
+  color: #475569;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.create-task-container label:first-of-type {
+  margin-top: 0;
+}
+
+.create-task-container input[type="text"],
+.create-task-container input[type="file"] {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background-color: #f8fafc;
+  color: #1f2937;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.create-task-container input[type="text"]:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.create-task-container input[type="file"] {
+  padding: 12px;
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
+  min-height: 160px;
+  padding: 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  background-color: #f8fafc;
+  color: #1f2937;
+  resize: vertical;
+  font-size: 1rem;
+  font-family: inherit;
+  line-height: 1.6;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.image-preview {
+  margin-top: 16px;
+  max-width: 100%;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.create-task-container button {
+  margin-top: 28px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
+}
+
+.create-task-container button:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(59, 130, 246, 0.45);
+}
+
+/* Адаптив для планшетов */
+@media (max-width: 768px) {
+  .create-task-container {
+    margin: 32px auto;
+    padding: 32px 28px;
+    width: 92%;
+    border-radius: 16px;
+  }
+
   .create-task-container h2 {
-    color: #1d4ed8;
-    margin-bottom: 25px;
-    margin-top: 10px !important;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
+    margin-bottom: 24px;
   }
-  
+
   .create-task-container label {
-    display: block;
-    margin: 20px 0 10px;
-    color: #334155;
-    font-weight: 500;
-    font-size: 1rem;
+    font-size: 0.95rem;
+    margin: 18px 0 8px;
   }
-  
+
+  .create-task-container input[type="text"],
   textarea {
+    font-size: 16px;
+    padding: 14px;
+  }
+
+  textarea {
+    min-height: 140px;
+  }
+
+  .create-task-container button {
     width: 100%;
-    min-height: 180px;
-    padding: 15px;
-    border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    background-color: #f9fafb;
-    color: #1f2937;
-    resize: vertical;
-    font-size: 1rem;
+    padding: 16px;
   }
-  
+}
+
+/* Адаптив для мобильных */
+@media (max-width: 480px) {
+  .create-task-container {
+    margin: 20px auto;
+    padding: 24px 18px;
+    width: 94%;
+    border-radius: 14px;
+  }
+
+  .create-task-container h2 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+
+  .create-task-container label {
+    font-size: 0.9rem;
+    margin: 16px 0 6px;
+  }
+
+  .create-task-container input[type="text"],
+  textarea {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  textarea {
+    min-height: 120px;
+  }
+
+  .create-task-container button {
+    margin-top: 24px;
+    padding: 14px;
+    font-size: 0.95rem;
+  }
+
   .image-preview {
-    margin-top: 15px;
-    max-width: 100%;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
+    border-radius: 10px;
   }
-  
-  button {
-    margin-top: 20px;
-    background-color: #3b82f6 !important;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  @media (max-width: 480px) {
-    .create-task-container {
-      padding: 30px 20px;
-      width: 95%;
-    }
-    
-    .create-task-container h2 {
-      font-size: 1.5rem;
-    }
-    
-    button {
-      padding: 10px;
-    }
-  }
+}

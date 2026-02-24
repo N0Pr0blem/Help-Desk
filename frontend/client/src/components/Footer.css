@@ -1,53 +1,94 @@
 .footer {
-    background-color: #f0f4f8;
-    border-top: 1px solid #d1d5db;
-    padding: 24px 40px;
-    color: #4b5563;
-    font-size: 14px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 30px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-top: 1px solid #e2e8f0;
+  padding: 40px 60px;
+  color: #64748b;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.footer-section {
+  min-width: 200px;
+  flex: 1;
+}
+
+.footer-section h4 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #1e40af;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+.footer-section a {
+  display: block;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: #3b82f6;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.footer-section a:hover {
+  color: #1d4ed8;
+  padding-left: 4px;
+}
+
+.footer-section p {
+  margin: 6px 0;
+  line-height: 1.6;
+  color: #64748b;
+}
+
+.footer-bottom {
+  width: 100%;
+  text-align: center;
+  padding-top: 24px;
+  margin-top: 16px;
+  border-top: 1px solid #e2e8f0;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    padding: 32px 24px;
+    gap: 28px;
+    text-align: center;
   }
-  
+
   .footer-section {
-    min-width: 180px;
+    min-width: auto;
   }
-  
-  .footer-section h4 {
-    margin-top: 0px !important;
-    margin-bottom: 12px;
-    color: #1e3a8a;
-    font-size: 18px;
-  }
-  
+
   .footer-section a {
     display: block;
-    margin-bottom: 8px;
-    text-decoration: none;
-    color: #2563eb;
-    font-weight: 500;
-    transition: color 0.3s;
   }
-  
+
   .footer-section a:hover {
-    color: #1e40af;
+    transform: none;
   }
-  
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 24px 16px;
+    gap: 24px;
+  }
+
+  .footer-section h4 {
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+
+  .footer-section a,
   .footer-section p {
-    margin: 4px 0;
+    font-size: 13px;
   }
-  
-  /* Адаптив */
-  @media (max-width: 768px) {
-    .footer {
-      flex-direction: column;
-      padding: 20px;
-    }
-  
-    .footer-section {
-      min-width: auto;
-      margin-bottom: 20px;
-    }
-  }
-  
+}

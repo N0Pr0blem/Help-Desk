@@ -12,6 +12,7 @@ function EditUserPage() {
     first_name: "",
     second_name: "",
     last_name: "",
+    role: "",
   });
 
   const [error, setError] = useState("");
@@ -49,6 +50,7 @@ function EditUserPage() {
         first_name: form.first_name,
         second_name: form.second_name,
         last_name: form.last_name,
+        role: form.role,
       });
       setSuccess("Пользователь успешно обновлён!");
       setTimeout(() => {
@@ -98,6 +100,19 @@ function EditUserPage() {
               value={form.last_name}
               onChange={handleChange}
             />
+          </label>
+
+          <label>
+            Роль:
+            <select
+              name="role"
+              value={form.role}
+              onChange={handleChange}
+            >
+              <option value="USER">Пользователь</option>
+              <option value="SYSADMIN">Сисадмин</option>
+              <option value="ADMIN">Администратор</option>
+            </select>
           </label>
 
           <button type="submit">Сохранить</button>
